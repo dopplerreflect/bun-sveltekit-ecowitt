@@ -1,2 +1,21 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<script lang="ts">
+  import { browser } from '$app/environment';
+  import type { EcowittData } from '../../types'
+
+  let data = {} as EcowittData;
+  if(browser) {
+    const evtSource = new EventSource("http://localhost:3000/")
+  
+    evtSource.onmessage = event => {
+      data = JSON.parse(event.data);
+      console.log(data.dateutc)
+    }
+
+  }
+</script>
+
+<main>
+
+  <code>{data.dateutc}</code>
+
+</main>
