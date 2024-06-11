@@ -6,7 +6,7 @@ type WeatherData = {
 };
 
 const weatherData: WeatherData = {
-  data: {},
+  data: {} as EcowittData,
   sanitize,
 };
 
@@ -16,6 +16,9 @@ function sanitize(data: FormData): EcowittData {
   data.forEach((value, key) => {
     output[key] = stringFields.includes(key) ? value : Number(value);
   });
+  output.dateutc = new Date(
+    output.dateutc.replace(/ /, "T").replace(/$/, ".000Z"),
+  ).toISOString();
   return output;
 }
 

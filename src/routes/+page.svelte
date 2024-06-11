@@ -3,19 +3,25 @@
   import type { EcowittData } from '../../types'
 
   let data = {} as EcowittData;
+  let localtime = ''
   if(browser) {
     const evtSource = new EventSource("http://localhost:3000/")
   
     evtSource.onmessage = event => {
       data = JSON.parse(event.data);
-      console.log(data.dateutc)
+      localtime = new Date(data.dateutc).toLocaleString()
+      console.log(data.dateutc, localtime)
     }
 
   }
 </script>
 
+<svelte:head>
+  <title>{localtime}</title>
+</svelte:head>
+
 <main>
 
-  <code>{data.dateutc}</code>
+  <code>{localtime}</code>
 
 </main>
