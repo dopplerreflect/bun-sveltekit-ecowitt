@@ -1,4 +1,5 @@
 import type { EcowittData } from "../types";
+import { saveRow } from "./database";
 
 type WeatherData = {
   data: EcowittData;
@@ -19,6 +20,27 @@ function sanitize(data: FormData): EcowittData {
   output.dateutc = new Date(
     output.dateutc.replace(/ /, "T").replace(/$/, ".000Z"),
   ).toISOString();
+  let ignoredFields = [
+    "PASSKEY",
+    "stationtype",
+    "runtime",
+    "heap",
+    "rrain_piezo",
+    "erain_piezo",
+    "hrain_piezo",
+    "drain_piezo",
+    "wrain_piezo",
+    "mrain_piezo",
+    "yrain_piezo",
+    "ws90cap_volt",
+    "ws90_ver",
+    "wh90batt",
+    "freq",
+    "model",
+    "interval",
+  ];
+  ignoredFields.forEach(field => delete output[field]);
+  saveRow(output);
   return output;
 }
 
