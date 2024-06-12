@@ -1,14 +1,16 @@
 <script lang="ts">
   import { browser } from '$app/environment';
-  import type { EcowittData, RapidWind } from '../../types'
+  import type { EcowittData } from '../../types'
   import Windrose from '$lib/components/Windrose.svg.svelte';
   let data = [] as EcowittData[];
   $: latest = data[0] || false;
-  $: rapid_wind = data.map((d) => ({direction: d.winddir, speed: d.windspeedmph, gust: d.windgustmph}))
+  $: windData = data.map((d) => {
+    let {winddir, windspeedmph, windgustmph} = d;
+    return { winddir, windspeedmph, windgustmph }
+  })
   $: localtime = data[0] && new Date(data[0].dateutc).toLocaleTimeString()
   if(browser) {
     const evtSource = new EventSource("http://localhost:3000/")
-    
     evtSource.onmessage = event => {
       data = JSON.parse(event.data).reverse();
     }
@@ -17,8 +19,7 @@
 
 <svelte:head>
   {#if latest}
-  <title>{latest.tempf}°F</title>
-    
+    <title>{latest.tempf}°F</title>
   {/if}
 </svelte:head>
 
@@ -31,7 +32,7 @@ wind: {latest.winddir}° @ {latest.windspeedmph}mph gust {latest.windgustmph}mph
 temp: {latest.tempf}°F
 </code>
   <div id="windrose">
-    <Windrose {rapid_wind} />
+    <Windrose {windData} />
   </div>
   {/if}
 </main>

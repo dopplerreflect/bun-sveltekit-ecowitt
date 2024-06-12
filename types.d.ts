@@ -31,8 +31,8 @@ export type EcowittData = {
   interval?: number;
 };
 
-type RapidWind = {
-  speed: number;
-  direction: number;
-  gust: number;
+type WindData = {
+  windspeedmph: EcowittData.windspeedmph;
+  winddir: EcowittData.winddir;
+  windgustmph: EcowittData.windgustmph;
 };

@@ -1,13 +1,13 @@
 <script lang="ts">
 	import { hueForSpeed } from '$lib/color';
 	import { xyCoordinates as c, xyCoordinatesString as cs } from '$lib/geometry';
-  import type { RapidWind } from '../../../types';
+  import type { WindData } from '../../../types';
 
-  export let rapid_wind: RapidWind[];
+  export let windData: WindData[];
 
-	$: mostRecent = rapid_wind[0];
+	$: mostRecent = windData[0];
 
-	$: maxSpeed = Math.max(...rapid_wind.map((e) => e.speed));
+	$: maxSpeed = Math.max(...windData.map((e) => e.windspeedmph));
 
 	$: ringRadii = Array.from({ length: Math.ceil(maxSpeed) })
 		.map((_, i) => {
@@ -69,13 +69,13 @@
 			{/each}
 		</g>
 		<g id="windDots">
-			{#each rapid_wind as rw, i}
+			{#each windData as rw, i}
 				<circle
-					cx={c(rw.direction, rw.speed, maxSpeed).x || 0}
-					cy={c(rw.direction, rw.speed, maxSpeed).y || 0}
+					cx={c(rw.winddir, rw.windspeedmph, maxSpeed).x || 0}
+					cy={c(rw.winddir, rw.windspeedmph, maxSpeed).y || 0}
 					r={1}
-					fill={`hsla(${hueForSpeed(rw.speed)}, 100%, 50%, ${
-						1 - (1 / rapid_wind.length) * i
+					fill={`hsla(${hueForSpeed(rw.windspeedmph)}, 100%, 50%, ${
+						1 - (1 / windData.length) * i
 					})`}
 				/>
 			{/each}
@@ -87,7 +87,7 @@
 			stroke="hsl(30, 100%, 50%)"
 			fill="none"
 			stroke-width="1"
-			style={`transform: rotate(${mostRecent.direction}deg)`}
+			style={`transform: rotate(${mostRecent.winddir}deg)`}
 		/>
 		<path
 			id="pointer"
@@ -95,12 +95,12 @@
 			stroke="hsl(45, 100%, 50%)"
 			fill="none"
 			stroke-width="0.25"
-			style={`transform: rotate(${mostRecent.direction}deg)`}
+			style={`transform: rotate(${mostRecent.winddir}deg)`}
 		/>
 		<path
 			id="pointerWindspeedNeedle"
-			d={`M0,0L${cs(mostRecent.direction, mostRecent.speed, maxSpeed)}`}
-			stroke={`hsl(${hueForSpeed(mostRecent.speed)}, 100%, 50%)`}
+			d={`M0,0L${cs(mostRecent.winddir, mostRecent.windspeedmph, maxSpeed)}`}
+			stroke={`hsl(${hueForSpeed(mostRecent.windspeedmph)}, 100%, 50%)`}
 			stroke-width={0.5}
 		/>
 		<circle
