@@ -1,4 +1,4 @@
-import weatherData from "./weather-data";
+import processWeatherData from "./weather-data";
 import { emitter, newMessageRecieved } from "./event";
 import { sse } from "./server-sent-events";
 const server = Bun.serve({
@@ -6,15 +6,17 @@ const server = Bun.serve({
   hostname: "0.0.0.0",
   async fetch(req) {
     const path = new URL(req.url).pathname;
+    // client connects to / for server-sent-events
     if (path === "/") {
       return sse(req);
     }
+    // weather station hub sends data here
     if (req.method === "POST" && path === "/recieve-ecowitt-data") {
-      const data = await req.formData();
-      weatherData.data = weatherData.sanitize(data);
+      const formData = await req.formData();
+      let weatherData = processWeatherData(formData);
       emitter.dispatchEvent(newMessageRecieved);
-      console.log("RECIEVED:", weatherData.data.dateutc);
-      return Response.json({ success: true, data });
+      console.log("RECIEVED:", weatherData.dateutc);
+      return Response.json({ success: true }, { status: 201 });
     }
     return NotFound;
   },

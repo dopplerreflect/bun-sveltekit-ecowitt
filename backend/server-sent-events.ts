@@ -1,5 +1,5 @@
 import { emitter } from "./event";
-import { allRows } from "./database";
+import Database from "./database";
 
 export function sendSSEMessage(controller, data) {
   controller.enqueue(`data: ${JSON.stringify(data)}\n\n`);
@@ -10,9 +10,9 @@ export function sse(req) {
   return new Response(
     new ReadableStream({
       start(controller) {
-        sendSSEMessage(controller, allRows()); //send one to start
+        sendSSEMessage(controller, Database.allRows()); //send one to start
         function send() {
-          sendSSEMessage(controller, allRows());
+          sendSSEMessage(controller, Database.allRows());
         }
         emitter.addEventListener("ecowitt-message", send);
         signal.onabort = () => {

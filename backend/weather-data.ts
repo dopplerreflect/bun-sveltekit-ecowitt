@@ -1,24 +1,20 @@
 import type { EcowittData } from "../types";
-import { saveRow } from "./database";
+import Database from "./database";
 
-type WeatherData = {
-  data: EcowittData;
-  sanitize: Function;
-};
+export default function processWeatherData(formData: FormData) {
+  let sanitizedData = sanitize(formData);
+  Database.insertEcowittRow(sanitizedData);
+  return sanitizedData;
+}
 
-const weatherData: WeatherData = {
-  data: {} as EcowittData,
-  sanitize,
-};
-
-function sanitize(data: FormData): EcowittData {
-  const output = {} as EcowittData;
-  const stringFields = ["PASSKEY", "stationtype", "dateutc", "freq", "model"];
-  data.forEach((value, key) => {
-    output[key] = stringFields.includes(key) ? value : Number(value);
+function sanitize(formData: FormData): EcowittData {
+  let sanitizedData = {} as EcowittData;
+  let stringFields = ["PASSKEY", "stationtype", "dateutc", "freq", "model"];
+  formData.forEach((value, key) => {
+    sanitizedData[key] = stringFields.includes(key) ? value : Number(value);
   });
-  output.dateutc = new Date(
-    output.dateutc.replace(/ /, "T").replace(/$/, ".000Z"),
+  sanitizedData.dateutc = new Date(
+    sanitizedData.dateutc.replace(/ /, "T").replace(/$/, ".000Z"),
   ).toISOString();
   let ignoredFields = [
     "PASSKEY",
@@ -39,9 +35,6 @@ function sanitize(data: FormData): EcowittData {
     "model",
     "interval",
   ];
-  ignoredFields.forEach(field => delete output[field]);
-  saveRow(output);
-  return output;
+  ignoredFields.forEach(field => delete sanitizedData[field]);
+  return sanitizedData;
 }
-
-export default weatherData;

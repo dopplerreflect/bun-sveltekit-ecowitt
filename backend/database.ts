@@ -1,18 +1,28 @@
-import { Database } from "bun:sqlite";
+import { Database as Sqlite } from "bun:sqlite";
 import type { EcowittData } from "../types";
+import { emitter } from "./event";
 
 const MINUTES_TO_KEEP_DATA = 60;
 
-export function saveRow(ecowittData: EcowittData) {
-  _saveRow(ecowittData);
-  deleteOldRows();
-}
+const SqliteDB = new Sqlite("./backend/db.sqlite3", { create: true });
 
-export function allRows() {
-  return db.query("select * from ecowittData order by dateutc asc").all();
-}
+const Database = {
+  insertEcowittRow: (ecowittData: EcowittData) => insertEcowittRow(ecowittData),
+  allRows: () =>
+    SqliteDB.query("SELECT * FROM ecowittData ORDER BY dateutc ASC").all(),
+  init: () => {
+    emitter.addEventListener("ecowitt-message", deleteOldRows);
+    SqliteDB.query(
+      "CREATE TABLE IF NOT EXISTS ecowittData(dateutc STRING PRIMARY KEY,tempinf REAL,humidityin REAL,baromrelin REAL,baromabsin REAL,tempf REAL,humidity REAL,winddir REAL,windspeedmph REAL,windgustmph REAL,maxdailygust REAL,solarradiation REAL,uv REAL) ",
+    ).run();
+  },
+};
 
-function _saveRow(ecowittData: EcowittData) {
+export default Database;
+
+Database.init();
+
+function insertEcowittRow(ecowittData: EcowittData) {
   let ecowittDataClone: any = { ...ecowittData };
   let { dateutc } = ecowittDataClone;
   delete ecowittDataClone.dateutc;
@@ -21,7 +31,7 @@ function _saveRow(ecowittData: EcowittData) {
   let queryString = `INSERT INTO ecowittData (dateutc, ${keys.join(
     ",",
   )}) VALUES ('${dateutc}',${values.join(",")})`;
-  let query = db.query(queryString);
+  let query = SqliteDB.query(queryString);
   query.run();
 }
 
@@ -30,12 +40,6 @@ function deleteOldRows() {
   const past = new Date(
     current - MINUTES_TO_KEEP_DATA * 60 * 1000,
   ).toISOString();
-  const queryString = `delete from ecowittData where dateutc < '${past}'`;
-  db.query(queryString).run();
+  const queryString = `DELETE FROM ecowittData WHERE dateutc < '${past}'`;
+  SqliteDB.query(queryString).run();
 }
-
-const db = new Database("./backend/db.sqlite3", { create: true });
-
-db.query(
-  "CREATE TABLE IF NOT EXISTS ecowittData(dateutc STRING PRIMARY KEY,tempinf REAL,humidityin REAL,baromrelin REAL,baromabsin REAL,tempf REAL,humidity REAL,winddir REAL,windspeedmph REAL,windgustmph REAL,maxdailygust REAL,solarradiation REAL,uv REAL) ",
-).run();
