@@ -34,4 +34,5 @@ export type EcowittData = {
 type RapidWind = {
   speed: number;
   direction: number;
+  gust: number;
 };
