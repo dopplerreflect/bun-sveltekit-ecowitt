@@ -30,3 +30,8 @@ export type EcowittData = {
   model?: string;
   interval?: number;
 };
+
+type RapidWind = {
+  speed: number;
+  direction: number;
+};

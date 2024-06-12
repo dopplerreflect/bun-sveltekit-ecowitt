@@ -1,4 +1,3 @@
-import weatherData from "./weather-data";
 import { emitter } from "./event";
 import { allRows } from "./database";
 
@@ -11,8 +10,8 @@ export function sse(req) {
   return new Response(
     new ReadableStream({
       start(controller) {
+        sendSSEMessage(controller, allRows()); //send one to start
         function send() {
-          // sendSSEMessage(controller, weatherData.data);
           sendSSEMessage(controller, allRows());
         }
         emitter.addEventListener("ecowitt-message", send);

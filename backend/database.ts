@@ -1,15 +1,18 @@
 import { Database } from "bun:sqlite";
 import type { EcowittData } from "../types";
 
-const db = new Database("./db.sqlite3", { create: true });
-
-const create = db.query(
-  "CREATE TABLE IF NOT EXISTS ecowittData(dateutc STRING PRIMARY KEY,tempinf REAL,humidityin REAL,baromrelin REAL,baromabsin REAL,tempf REAL,humidity REAL,winddir REAL,windspeedmph REAL,windgustmph REAL,maxdailygust REAL,solarradiation REAL,uv REAL) ",
-);
-
-create.run();
+const MINUTES_TO_KEEP_DATA = 60;
 
 export function saveRow(ecowittData: EcowittData) {
+  _saveRow(ecowittData);
+  deleteOldRows();
+}
+
+export function allRows() {
+  return db.query("select * from ecowittData order by dateutc asc").all();
+}
+
+function _saveRow(ecowittData: EcowittData) {
   let ecowittDataClone: any = { ...ecowittData };
   let { dateutc } = ecowittDataClone;
   delete ecowittDataClone.dateutc;
@@ -22,6 +25,17 @@ export function saveRow(ecowittData: EcowittData) {
   query.run();
 }
 
-export function allRows() {
-  return db.query("select * from ecowittData order by dateutc asc").all();
+function deleteOldRows() {
+  const current = new Date().getTime();
+  const past = new Date(
+    current - MINUTES_TO_KEEP_DATA * 60 * 1000,
+  ).toISOString();
+  const queryString = `delete from ecowittData where dateutc < '${past}'`;
+  db.query(queryString).run();
 }
+
+const db = new Database("./backend/db.sqlite3", { create: true });
+
+db.query(
+  "CREATE TABLE IF NOT EXISTS ecowittData(dateutc STRING PRIMARY KEY,tempinf REAL,humidityin REAL,baromrelin REAL,baromabsin REAL,tempf REAL,humidity REAL,winddir REAL,windspeedmph REAL,windgustmph REAL,maxdailygust REAL,solarradiation REAL,uv REAL) ",
+).run();
