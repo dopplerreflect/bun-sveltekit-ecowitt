@@ -4,6 +4,8 @@ Receives data from an Ecowitt weather station and displays stuff
 
 Currently, it's mostly just a wind rose of sorts.
 
+![App screenshot](./app-screenshot.png)
+
 ## Requirements
 
 [bun](https://bun.sh) javascript runtime
@@ -21,4 +23,4 @@ _Customized_ heading, select _Enable_ and _Ecowitt_, and set appropriate values.
 Set _Server IP / Hostname_ to the IP/Hostname this app is running on.
 The app's server is on port `3000`. Set the _Upload Interval_ to the minimum of `8`.
 
-![screenshot of Weather Services pane](./screenshot.png)
+![screenshot of Weather Services pane](./config-screenshot.png)
