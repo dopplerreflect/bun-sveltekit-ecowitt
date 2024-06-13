@@ -1,5 +1,5 @@
 import processWeatherData from "./weather-data";
-import { emitter, newMessageRecieved } from "./event";
+import { emitter } from "./event";
 import { serverSentEvents } from "./server-sent-events";
 const server = Bun.serve({
   development: true,
@@ -14,8 +14,8 @@ const server = Bun.serve({
     if (req.method === "POST" && path === "/ecowitt-endpont") {
       const formData = await req.formData();
       let weatherData = processWeatherData(formData);
-      emitter.dispatchEvent(newMessageRecieved);
-      console.log("RECIEVED:", weatherData.dateutc);
+      emitter.dispatchEvent(new CustomEvent("ecowitt-message"));
+      console.log("DATA:", weatherData.dateutc);
       return Response.json({ success: true }, { status: 201 });
     }
     return NotFound;
