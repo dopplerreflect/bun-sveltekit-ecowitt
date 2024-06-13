@@ -10,7 +10,7 @@
   })
   $: localtime = data[0] && new Date(data[0].dateutc).toLocaleTimeString()
   if(browser) {
-    const evtSource = new EventSource("http://localhost:3000/")
+    const evtSource = new EventSource("http://localhost:3000/serverSentEvents")
     evtSource.onmessage = event => {
       data = JSON.parse(event.data).reverse();
     }

@@ -5,7 +5,7 @@ export function sendSSEMessage(controller, data) {
   controller.enqueue(`data: ${JSON.stringify(data)}\n\n`);
 }
 
-export function sse(req) {
+export function serverSentEvents(req) {
   const { signal } = req;
   return new Response(
     new ReadableStream({
