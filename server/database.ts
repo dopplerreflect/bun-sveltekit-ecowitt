@@ -4,7 +4,7 @@ import { emitter } from "./event";
 
 const MINUTES_TO_KEEP_DATA = 60;
 
-const SqliteDB = new Sqlite("./backend/db.sqlite3", { create: true });
+const SqliteDB = new Sqlite("./server/db.sqlite3", { create: true });
 
 const Database = {
   insertEcowittRow: (ecowittData: EcowittData) => insertEcowittRow(ecowittData),
