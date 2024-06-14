@@ -51,7 +51,12 @@ async function echoDataToThinkpad(formData: FormData) {
     .join("&");
   const response = await fetch("http://192.168.12.10:5173/api", {
     method: "POST",
-    body: data,
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      "Content-Length": data.length,
+      "Connection": "close",
+    },
+    body: `${data}\n\n`,
   });
-  console.log(response.text());
+  console.log(data);
 }
