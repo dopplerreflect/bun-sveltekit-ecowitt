@@ -3,7 +3,7 @@ import type { EcowittData } from "../../app";
 
 const MINUTES_TO_KEEP_DATA = 60;
 
-let sqliteDB = "/tmp/bun-sveltekit-ecowitt.db.sqlite3";
+let sqliteDB = "/var/tmp/bun-sveltekit-ecowitt.db.sqlite3";
 console.log(`Using database ${sqliteDB}`);
 
 const SqliteDB = new Sqlite(sqliteDB, { create: true });
