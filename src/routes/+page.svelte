@@ -1,8 +1,9 @@
 <script lang="ts">
   import { browser } from '$app/environment';
   import type { EcowittData } from '../../types'
+  import initialData from "./initialData.json"
   import Windrose from '$lib/components/Windrose.svg.svelte';
-  let data = [] as EcowittData[];
+  let data = initialData as EcowittData[];
   $: latest = data[0] || false;
   $: windData = data.map((d) => {
     let {winddir, windspeedmph, windgustmph} = d;
@@ -11,31 +12,32 @@
   $: localtime = data[0] && new Date(data[0].dateutc).toLocaleTimeString()
   if(browser) {
     const evtSource = new EventSource("/api/sse")
-    console.log(evtSource)
     evtSource.onmessage = event => {
       data = JSON.parse(event.data).reverse();
     }
+    async function getInitialData() {
+      const res = await fetch('/api/data')
+      let resJSON = await res.json();
+      data = resJSON.reverse();
+    }
+    getInitialData();
   }
 </script>
 
 <svelte:head>
-  {#if latest}
     <title>{latest.tempf}°F</title>
-  {/if}
 </svelte:head>
 
 <main>
-  {#if latest}
-  <code>last report: {localtime}
+  <code>last report: {localtime}</code>
 
-wind: {latest.winddir}° @ {latest.windspeedmph}mph gust {latest.windgustmph}mph
+  <code>wind: {latest.winddir}° @ {latest.windspeedmph}mph gust {latest.windgustmph}mph</code>
 
-temp: {latest.tempf}°F
-</code>
+  <code>temp: {latest.tempf}°F</code>
+
   <div id="windrose">
     <Windrose {windData} />
   </div>
-  {/if}
 </main>
 
 <style>
@@ -45,5 +47,6 @@ temp: {latest.tempf}°F
   code {
     display: block;
     white-space: pre;
+    margin-bottom: 0.5em;
   }
 </style>
