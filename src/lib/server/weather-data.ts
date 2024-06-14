@@ -1,4 +1,4 @@
-import type { EcowittData } from "../types";
+import type { EcowittData } from "../../app";
 import Database from "./database";
 
 export default function processWeatherData(formData: FormData) {

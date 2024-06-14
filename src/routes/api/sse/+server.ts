@@ -1,22 +1,19 @@
-import { emitter } from "./event";
-import Database from "./database";
+import Database from "$lib/server/database.js";
+import { emitter } from "$lib/server/event.js";
 
-export function sendSSEMessage(controller, data) {
-  controller.enqueue(`data: ${JSON.stringify(data)}\n\n`);
-}
-
-export function serverSentEvents(req) {
-  const { signal } = req;
+export async function GET({ request }) {
+  const { signal } = request;
   return new Response(
     new ReadableStream({
       start(controller) {
-        sendSSEMessage(controller, Database.allRows()); //send one to start
+        controller.enqueue(`data: ${JSON.stringify(Database.allRows())}\n\n`);
         function send() {
-          sendSSEMessage(controller, Database.allRows());
+          controller.enqueue(`data: ${JSON.stringify(Database.allRows())}\n\n`);
         }
-        emitter.addEventListener("ecowitt-message", send);
+        const timer = setInterval(send, 8000);
         signal.onabort = () => {
           emitter.removeEventListener("ecowitt-message", send);
+          clearInterval(timer);
           controller.close();
         };
       },

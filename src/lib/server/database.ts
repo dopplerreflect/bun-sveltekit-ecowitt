@@ -1,5 +1,5 @@
 import { Database as Sqlite } from "bun:sqlite";
-import type { EcowittData } from "../types";
+import type { EcowittData } from "../../app";
 import { emitter } from "./event";
 
 const MINUTES_TO_KEEP_DATA = 60;

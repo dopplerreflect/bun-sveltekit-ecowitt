@@ -1,0 +1,35 @@
+import { emitter } from "./event";
+import Database from "./database";
+
+export function sendSSEMessage(controller, data) {
+  controller.enqueue(`data: ${JSON.stringify(data)}\n\n`);
+}
+
+export function serverSentEvents(request: Request) {
+  const { signal } = request;
+  return new Response(
+    new ReadableStream({
+      start(controller) {
+        sendSSEMessage(controller, Database.allRows()); //send one to start
+        function send() {
+          console.log("send()");
+          sendSSEMessage(controller, Database.allRows());
+        }
+        emitter.addEventListener("ecowitt-message", send);
+        signal.onabort = () => {
+          emitter.removeEventListener("ecowitt-message", send);
+          controller.close();
+        };
+      },
+    }),
+    {
+      status: 200,
+      headers: {
+        "Content-Type": "text/event-stream",
+        "Cache-Control": "no-cache",
+        "Access-Control-Allow-Origin": "*",
+        Connection: "keep-alive",
+      },
+    },
+  );
+}
