@@ -3,14 +3,9 @@ import type { EcowittData } from "../../app";
 import Database from "./database";
 
 export default function processWeatherData(formData: FormData) {
-  // if (dev)
-  //   console.log(
-  //     [...formData.entries()]
-  //       .map(entry => {
-  //         return `${entry[0]}=${entry[1]}`;
-  //       })
-  //       .join("&"),
-  //   );
+  echoDataToThinkpad(formData).catch(error => {
+    console.error("Error:", error);
+  });
   let sanitizedData = sanitize(formData);
   Database.insertEcowittRow(sanitizedData);
   return sanitizedData;
@@ -46,4 +41,17 @@ function sanitize(formData: FormData): EcowittData {
   ];
   ignoredFields.forEach(field => delete sanitizedData[field]);
   return sanitizedData;
+}
+
+async function echoDataToThinkpad(formData: FormData) {
+  let data = [...formData.entries()]
+    .map(entry => {
+      return `${entry[0]}=${entry[1]}`;
+    })
+    .join("&");
+  const response = await fetch("http://192.168.12.10:5173/api", {
+    method: "POST",
+    body: data,
+  });
+  console.log(response.text());
 }
