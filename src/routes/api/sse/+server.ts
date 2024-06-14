@@ -1,5 +1,4 @@
 import Database from "$lib/server/database.js";
-import { emitter } from "$lib/server/event.js";
 
 export async function GET({ request }) {
   const { signal } = request;
@@ -12,7 +11,6 @@ export async function GET({ request }) {
         }
         const timer = setInterval(send, 8000);
         signal.onabort = () => {
-          emitter.removeEventListener("ecowitt-message", send);
           clearInterval(timer);
           controller.close();
         };

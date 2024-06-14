@@ -1,6 +1,5 @@
 import { Database as Sqlite } from "bun:sqlite";
 import type { EcowittData } from "../../app";
-import { emitter } from "./event";
 
 const MINUTES_TO_KEEP_DATA = 60;
 
@@ -11,7 +10,6 @@ const Database = {
   allRows: () =>
     SqliteDB.query("SELECT * FROM ecowittData ORDER BY dateutc ASC").all(),
   init: () => {
-    emitter.addEventListener("ecowitt-message", deleteOldRows);
     SqliteDB.query(
       "CREATE TABLE IF NOT EXISTS ecowittData(dateutc STRING PRIMARY KEY,tempinf REAL,humidityin REAL,baromrelin REAL,baromabsin REAL,tempf REAL,humidity REAL,winddir REAL,windspeedmph REAL,windgustmph REAL,maxdailygust REAL,solarradiation REAL,uv REAL) ",
     ).run();
@@ -33,6 +31,7 @@ function insertEcowittRow(ecowittData: EcowittData) {
   )}) VALUES ('${dateutc}',${values.join(",")})`;
   let query = SqliteDB.query(queryString);
   query.run();
+  deleteOldRows();
 }
 
 function deleteOldRows() {
