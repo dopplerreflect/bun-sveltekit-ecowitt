@@ -1,7 +1,16 @@
+import { dev } from "$app/environment";
 import type { EcowittData } from "../../app";
 import Database from "./database";
 
 export default function processWeatherData(formData: FormData) {
+  // if (dev)
+  //   console.log(
+  //     [...formData.entries()]
+  //       .map(entry => {
+  //         return `${entry[0]}=${entry[1]}`;
+  //       })
+  //       .join("&"),
+  //   );
   let sanitizedData = sanitize(formData);
   Database.insertEcowittRow(sanitizedData);
   return sanitizedData;

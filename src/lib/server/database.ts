@@ -3,7 +3,10 @@ import type { EcowittData } from "../../app";
 
 const MINUTES_TO_KEEP_DATA = 60;
 
-const SqliteDB = new Sqlite(":memory:", { create: true });
+let sqliteDB = "/tmp/bun-sveltekit-ecowitt.db.sqlite3";
+console.log(`Using database ${sqliteDB}`);
+
+const SqliteDB = new Sqlite(sqliteDB, { create: true });
 
 const Database = {
   insertEcowittRow: (ecowittData: EcowittData) => insertEcowittRow(ecowittData),
