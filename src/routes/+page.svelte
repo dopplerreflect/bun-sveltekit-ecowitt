@@ -48,14 +48,19 @@
 </main>
 
 <style>
+  :root {
+    --phi: 0.618;
+    --one: calc(100vh * 0.99);
+    --two: calc(var(--one) * var(--phi));
+    --three: calc(var(--one) * (var(--phi) * var(--phi)));
+  }
   main {
     display: grid;
-    grid-template-columns: 100vh calc(100vh * 0.618) 1fr;
-    grid-template-rows: 1fr calc((100vh * 0.618) * 0.618);
+    grid-template-columns: var(--one) var(--two) var(--three);
+    grid-template-rows: var(--two) var(--three);
     grid-template-areas: 
       "windrose data windsaloft"
       "windrose linechart windsaloft";
-    height: 100vh;
     background-color: oklch(12.5% 25% var(--hue));
   }
   #windrose {
@@ -73,6 +78,7 @@
   #windsaloft {
     grid-area: windsaloft;
     border-left: 1px solid white;
+    border-right: 1px solid white;
   }
   code {
     display: block;
