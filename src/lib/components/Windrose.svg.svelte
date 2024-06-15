@@ -38,7 +38,7 @@
 			<feGaussianBlur in="SourceGraphic" stdDeviation="0.75" />
 		</filter>
 	</defs>
-	<circle cx={0} cy={0} r={100} fill="hsl(240, 100%, 10%)" />
+	<circle cx={0} cy={0} r={100} fill="hsla(240, 100%, 10%, 0.5)" />
 	<g id="windrose">
 		<g id="ringRadii">
 			{#each ringRadii as radius}

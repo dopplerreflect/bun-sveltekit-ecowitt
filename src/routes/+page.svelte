@@ -41,15 +41,33 @@
     <code>temp: {latest.tempf}°F</code>
   </div>
 
-  <div id="line-chart"><p>line chart goes here</p></div>
+  <div id="line-chart"><h1>line chart goes here</h1></div>
+
+  <div id="windsaloft">Winds Aloft</div>
 </main>
 
 <style>
   main {
     display: grid;
-    grid-template-columns: 100vh 1fr 1fr;
+    grid-template-columns: 100vh calc(100vh * 0.618) 1fr;
+    grid-template-rows: 1fr calc((100vh * 0.618) * 0.618);
+    grid-template-areas: 
+      "windrose data windsaloft"
+      "windrose linechart windsaloft";
     height: 100vh;
     background-color: oklch(12.5% 25% var(--hue));
+  }
+  #windrose {
+    grid-area: windrose;
+  }
+  #data {
+    grid-area: data;
+  }
+  #line-chart {
+    grid-area: linechart;
+  }
+  #windsaloft {
+    grid-area: windsaloft;
   }
   main > * {
     border: 1px solid oklch(50% 10% var(--hue));
