@@ -44,7 +44,7 @@
       
   </div>
 
-  <div id="data">
+  <div id="left">
     <code>last report: {localtime}</code>
     
     <code>wind: {latest.winddir}° @ {latest.windspeedmph}mph gust {latest.windgustmph}mph</code>
@@ -82,35 +82,36 @@
 <style>
   :root {
     --phi: 0.618;
-    --one: calc(100vh * 0.99);
+    --one: calc(100vh * 1);
     --two: calc(var(--one) * var(--phi));
     --three: calc(var(--one) * (var(--phi) * var(--phi)));
   }
   main {
     display: grid;
-    grid-template-columns: var(--one) var(--two) var(--three);
+    grid-template-columns: 1fr var(--one) var(--two) 1fr;
     grid-template-rows: var(--two) var(--three);
     grid-template-areas: 
-      "windrose data windsaloft"
-      "windrose linechart windsaloft";
+      "left windrose windsaloft right"
+      "left windrose linechart right";
     background-color: oklch(12.5% 25% var(--hue));
   }
   #windrose {
     grid-area: windrose;
     border-right: 1px solid white;
   }
-  #data {
-    grid-area: data;
-    border-bottom: 1px solid white;
-
+  #left {
+    overflow: hidden;
+    grid-area: left;
+    border-right: 1px solid white;
   }
   #line-chart {
     grid-area: linechart;
+    border-right: 1px solid white;
   }
   #windsaloft {
     grid-area: windsaloft;
-    border-left: 1px solid white;
-    border-right: 1px solid white;
+    border: 1px solid white;
+    border-style: none solid solid none;
   }
   code {
     display: block;
