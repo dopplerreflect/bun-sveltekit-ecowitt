@@ -4,7 +4,9 @@
   import type { WindData } from '../../../types';
 
   export let windData: WindData[];
+  export let svgHeight: number;
 
+  console.log('windrose', svgHeight)
 	$: mostRecent = windData[0];
 
 	$: maxSpeed = Math.max(...windData.map((e) => e.windspeedmph));
@@ -23,7 +25,7 @@
 	let svg: SVGElement;
 
 </script>
-<svg bind:this={svg} xmlns="http://www.w3.org/2000/svg" viewBox="-105 -105 210 210" preserveAspectRatio="none">
+<svg bind:this={svg} xmlns="http://www.w3.org/2000/svg" height={svgHeight} viewBox="-105 -105 210 210" preserveAspectRatio="none">
 	<defs>
 		<mask id="ringMask">
 			<path d="M-100,-100H100V100H-100Z" fill="white" />
@@ -150,7 +152,7 @@
 <style>
   svg {
     position: absolute;
-    height: 100%;
+    /* height: 100%; */
     width: auto;
   }
 	text.cardinal {

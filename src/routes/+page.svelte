@@ -3,6 +3,7 @@
   import type { EcowittData } from '../../types'
   import initialData from "./initialData.json"
   import Windrose from '$lib/components/Windrose.svg.svelte';
+  import { onMount } from 'svelte';
   let data = initialData as EcowittData[];
   $: latest = data[0] || false;
   $: windData = data.map((d) => {
@@ -23,6 +24,14 @@
     }
     getInitialData();
   }
+  let windRoseDiv: HTMLDivElement;
+  let svgHeight: number;
+  onMount(() => {
+    const resizeSvg = () => svgHeight = windRoseDiv.getBoundingClientRect().height;
+    resizeSvg();
+    window.addEventListener('resize', resizeSvg)
+    return () => window.removeEventListener('resize', resizeSvg)
+  })
 </script>
 
 <svelte:head>
@@ -30,8 +39,9 @@
 </svelte:head>
 
 <main>
-  <div id="windrose">
-    <Windrose {windData} />
+  <div id="windrose" bind:this={windRoseDiv}>
+    <Windrose {windData} svgHeight={svgHeight}/>
+      
   </div>
 
   <div id="data">
@@ -44,7 +54,29 @@
 
   <div id="line-chart"><h1>line chart goes here</h1></div>
 
-  <div id="windsaloft">Winds Aloft</div>
+  <div id="windsaloft">
+    <table>
+      <caption>Winds Aloft</caption>
+      <thead>
+        <tr>
+          <th>ALT</th>
+          <th>TEMP</th>
+          <th>DIR</th>
+          <th>SPEED</th>
+        </tr>
+      </thead>
+      <tbody>
+      {#each [...Array(18).keys()].map(i => i) as i}
+        <tr>
+          <td>{i * 1000}</td>
+          <td>{i * 1.5}</td>
+          <td>{i * 3}</td>
+          <td>{i * 4}</td>
+        </tr>
+      {/each}
+      </tbody>
+    </table>
+  </div>
 </main>
 
 <style>
@@ -84,5 +116,9 @@
     display: block;
     white-space: pre;
     margin-bottom: 0.5em;
+  }
+  table {
+    font-family: Arial, Helvetica, sans-serif;
+    width: 100%;
   }
 </style>

@@ -1,7 +1,9 @@
 :root {
   --hue: 270;
+  --phi: 0.618;
 }
 body {
+  font-family: Arial, Helvetica, sans-serif;
   margin: 0;
   color: oklch(95% 25% var(--hue));
   background-color: oklch(10% 25% var(--hue));
