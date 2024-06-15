@@ -60,18 +60,19 @@
   }
   #windrose {
     grid-area: windrose;
+    border-right: 1px solid white;
   }
   #data {
     grid-area: data;
+    border-bottom: 1px solid white;
+
   }
   #line-chart {
     grid-area: linechart;
   }
   #windsaloft {
     grid-area: windsaloft;
-  }
-  main > * {
-    border: 1px solid oklch(50% 10% var(--hue));
+    border-left: 1px solid white;
   }
   code {
     display: block;
