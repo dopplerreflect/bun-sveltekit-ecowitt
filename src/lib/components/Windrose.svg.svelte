@@ -23,7 +23,7 @@
 	let svg: SVGElement;
 
 </script>
-<svg bind:this={svg} xmlns="http://www.w3.org/2000/svg" viewBox="-105 -105 210 210">
+<svg bind:this={svg} xmlns="http://www.w3.org/2000/svg" viewBox="-105 -105 210 210" preserveAspectRatio="none">
 	<defs>
 		<mask id="ringMask">
 			<path d="M-100,-100H100V100H-100Z" fill="white" />
@@ -150,11 +150,11 @@
 <style>
   svg {
     position: absolute;
-    top: 0;
-    width: 100vmin;
-    height: auto;
+    height: 100%;
+    width: auto;
   }
 	text.cardinal {
+    font-family: 'Courier New', Courier, monospace;
 		fill: white;
 		font-size: 5px;
 		font-weight: bold;

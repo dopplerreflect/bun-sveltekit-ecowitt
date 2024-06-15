@@ -29,20 +29,30 @@
 </svelte:head>
 
 <main>
-  <code>last report: {localtime}</code>
-
-  <code>wind: {latest.winddir}° @ {latest.windspeedmph}mph gust {latest.windgustmph}mph</code>
-
-  <code>temp: {latest.tempf}°F</code>
-
   <div id="windrose">
     <Windrose {windData} />
   </div>
+
+  <div id="data">
+    <code>last report: {localtime}</code>
+    
+    <code>wind: {latest.winddir}° @ {latest.windspeedmph}mph gust {latest.windgustmph}mph</code>
+    
+    <code>temp: {latest.tempf}°F</code>
+  </div>
+
+  <div id="line-chart"><p>line chart goes here</p></div>
 </main>
 
 <style>
   main {
-    height: 20px !important;
+    display: grid;
+    grid-template-columns: 100vh 1fr 1fr;
+    height: 100vh;
+    background-color: oklch(12.5% 25% var(--hue));
+  }
+  main > * {
+    border: 1px solid oklch(50% 10% var(--hue));
   }
   code {
     display: block;
