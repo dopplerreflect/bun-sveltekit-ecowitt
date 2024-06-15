@@ -7,6 +7,7 @@
   $: latest = data[0] || false;
   $: windData = data.map((d) => {
     let {winddir, windspeedmph, windgustmph} = d;
+    // windspeedmph = windspeedmph * 5 // for testing
     return { winddir, windspeedmph, windgustmph }
   })
   $: localtime = data[0] && new Date(data[0].dateutc).toLocaleTimeString()

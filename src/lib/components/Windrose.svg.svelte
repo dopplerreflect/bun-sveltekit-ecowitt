@@ -13,7 +13,7 @@
 		.map((_, i) => {
 			const div = maxSpeed > 9.9 ? 5 : 1;
 			if (i % div === 0) {
-				return i;
+				return i ;
 			}
 			return -1;
 		})
@@ -38,7 +38,7 @@
 			<feGaussianBlur in="SourceGraphic" stdDeviation="0.75" />
 		</filter>
 	</defs>
-	<circle cx={0} cy={0} r={100} fill="hsla(240, 100%, 10%, 0.5)" />
+	<circle cx={0} cy={0} r={100} fill="oklch(0% 75% var(--hue))" />
 	<g id="windrose">
 		<g id="ringRadii">
 			{#each ringRadii as radius}
@@ -46,7 +46,7 @@
 					font-size="6px"
 					y={0.75}
 					x={(100 / maxSpeed) * radius}
-					fill={`hsl(${hueForSpeed(radius)}, 100%, 50%)`}
+					fill={`oklch(100% 100% ${hueForSpeed(radius)})`}
 					text-anchor="middle"
 					alignment-baseline="middle"
 				>
@@ -57,13 +57,13 @@
 					mask="url(#ringMask)"
 					r={(100 / maxSpeed) * radius}
 					fill="none"
-					stroke={`hsl(${hueForSpeed(radius)}, 100%, 50%)`}
+					stroke={`oklch(100% 100% ${hueForSpeed(radius) })`}
 				/>
 				<circle
 					mask="url(#ringMask)"
 					r={(100 / maxSpeed) * radius}
 					fill="none"
-					stroke={`hsl(${hueForSpeed(radius) - 30}, 100%, 50%)`}
+					stroke={`oklch(100% 100% ${hueForSpeed(radius) - 15})`}
 					stroke-width="0.25"
 				/>
 			{/each}
@@ -73,8 +73,8 @@
 				<circle
 					cx={c(rw.winddir, rw.windspeedmph, maxSpeed).x || 0}
 					cy={c(rw.winddir, rw.windspeedmph, maxSpeed).y || 0}
-					r={1}
-					fill={`hsla(${hueForSpeed(rw.windspeedmph)}, 100%, 50%, ${
+					r={1 - (1 / windData.length) * i}
+					fill={`oklch(100% 100% ${hueForSpeed(rw.windspeedmph)} / ${
 						1 - (1 / windData.length) * i
 					})`}
 				/>
@@ -84,7 +84,7 @@
 			id="pointer"
 			filter="url(#blur)"
 			d="M0,100 L-22.45139882897927,30.901699437494752 L-2.0244413695060732,2.786404500042062 A3.4441853748633044,3.4441853748633044 0 0 1 -2.024441369506074,-2.786404500042062 L-3.2756149440922124,-4.508497187473714 L0,-100 L3.275614944092212,-4.508497187473714 L2.0244413695060737,-2.786404500042062 A3.4441853748633044,3.4441853748633044 0 0 1 2.0244413695060737,2.786404500042062 L22.451398828979276,30.901699437494752 Z"
-			stroke="hsl(30, 100%, 50%)"
+			stroke="oklch(100% 100% 60)"
 			fill="none"
 			stroke-width="1"
 			style={`transform: rotate(${mostRecent.winddir}deg)`}
@@ -92,7 +92,7 @@
 		<path
 			id="pointer"
 			d="M0,100 L-22.45139882897927,30.901699437494752 L-2.0244413695060732,2.786404500042062 A3.4441853748633044,3.4441853748633044 0 0 1 -2.024441369506074,-2.786404500042062 L-3.2756149440922124,-4.508497187473714 L0,-100 L3.275614944092212,-4.508497187473714 L2.0244413695060737,-2.786404500042062 A3.4441853748633044,3.4441853748633044 0 0 1 2.0244413695060737,2.786404500042062 L22.451398828979276,30.901699437494752 Z"
-			stroke="hsl(45, 100%, 50%)"
+			stroke="oklch(100% 100% 90)"
 			fill="none"
 			stroke-width="0.25"
 			style={`transform: rotate(${mostRecent.winddir}deg)`}
@@ -100,7 +100,7 @@
 		<path
 			id="pointerWindspeedNeedle"
 			d={`M0,0L${cs(mostRecent.winddir, mostRecent.windspeedmph, maxSpeed)}`}
-			stroke={`hsl(${hueForSpeed(mostRecent.windspeedmph)}, 100%, 50%)`}
+			stroke={`oklch(100% 100% ${hueForSpeed(mostRecent.windspeedmph)})`}
 			stroke-width={0.5}
 		/>
 		<circle
