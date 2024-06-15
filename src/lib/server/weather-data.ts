@@ -3,14 +3,6 @@ import type { EcowittData } from "../../app";
 import Database from "./database";
 
 export default function processWeatherData(formData: FormData) {
-  // if (dev)
-  //   console.log(
-  //     [...formData.entries()]
-  //       .map(entry => {
-  //         return `${entry[0]}=${entry[1]}`;
-  //       })
-  //       .join("&"),
-  //   );
   let sanitizedData = sanitize(formData);
   Database.insertEcowittRow(sanitizedData);
   return sanitizedData;
@@ -19,9 +11,11 @@ export default function processWeatherData(formData: FormData) {
 function sanitize(formData: FormData): EcowittData {
   let sanitizedData = {} as EcowittData;
   let stringFields = ["PASSKEY", "stationtype", "dateutc", "freq", "model"];
+  let tempObj: any = {};
   formData.forEach((value, key) => {
-    sanitizedData[key] = stringFields.includes(key) ? value : Number(value);
+    tempObj[key] = stringFields.includes(key) ? value : Number(value);
   });
+  sanitizedData = tempObj;
   sanitizedData.dateutc = new Date(
     sanitizedData.dateutc.replace(/ /, "T").replace(/$/, ".000Z"),
   ).toISOString();
@@ -44,6 +38,8 @@ function sanitize(formData: FormData): EcowittData {
     "model",
     "interval",
   ];
-  ignoredFields.forEach(field => delete sanitizedData[field]);
+  ignoredFields.forEach(
+    field => delete sanitizedData[field as keyof EcowittData],
+  );
   return sanitizedData;
 }
