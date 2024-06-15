@@ -1,6 +1,6 @@
 import { Database as Sqlite } from "bun:sqlite";
 import type { EcowittData } from "../../app";
-
+import { WeatherSchema, IgnoredFields } from "../weather-schema";
 const MINUTES_TO_KEEP_DATA = 60;
 
 let sqliteDB = "/var/tmp/bun-sveltekit-ecowitt.db.sqlite3";
@@ -12,11 +12,7 @@ const Database = {
   insertEcowittRow: (ecowittData: EcowittData) => insertEcowittRow(ecowittData),
   allRows: () =>
     SqliteDB.query("SELECT * FROM ecowittData ORDER BY dateutc ASC").all(),
-  init: () => {
-    SqliteDB.query(
-      "CREATE TABLE IF NOT EXISTS ecowittData(dateutc STRING PRIMARY KEY,tempinf REAL,humidityin REAL,baromrelin REAL,baromabsin REAL,tempf REAL,humidity REAL,winddir REAL,windspeedmph REAL,windgustmph REAL,maxdailygust REAL,solarradiation REAL,uv REAL) ",
-    ).run();
-  },
+  init: () => createTable(),
 };
 
 export default Database;
@@ -28,12 +24,20 @@ function insertEcowittRow(ecowittData: EcowittData) {
   let { dateutc } = ecowittDataClone;
   delete ecowittDataClone.dateutc;
   let keys = Object.keys(ecowittDataClone);
-  let values = Object.values(ecowittDataClone);
+  let values = Object.values(ecowittDataClone).map(value => {
+    return typeof value === "string" ? `'${value}'` : value;
+  });
   let queryString = `INSERT INTO ecowittData (dateutc, ${keys.join(
     ",",
   )}) VALUES ('${dateutc}',${values.join(",")})`;
+  console.log(queryString);
   let query = SqliteDB.query(queryString);
-  query.run();
+  try {
+    query.run();
+  } catch (error) {
+    console.log(error);
+  }
+
   deleteOldRows();
 }
 
@@ -44,4 +48,20 @@ function deleteOldRows() {
   ).toISOString();
   const queryString = `DELETE FROM ecowittData WHERE dateutc < '${past}'`;
   SqliteDB.query(queryString).run();
+}
+
+function createTable() {
+  const schema: any = WeatherSchema;
+  delete schema.dateutc;
+  const stanzaElements = Object.entries(schema)
+    .map(([key, value]) => {
+      if (!IgnoredFields.includes(key))
+        return `${key} ${typeof value === "string" ? "STRING" : "REAL"}`;
+    })
+    .filter(e => e !== undefined);
+  stanzaElements.push("dateutc STRING PRIMARY KEY");
+  const queryStr = `CREATE TABLE IF NOT EXISTS ecowittData (${stanzaElements.join(
+    ",",
+  )})`;
+  SqliteDB.query(queryStr).run();
 }
