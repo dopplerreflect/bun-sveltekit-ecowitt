@@ -50,3 +50,33 @@ type WindData = {
   winddir: EcowittData.winddir;
   windgustmph: EcowittData.windgustmph;
 };
+
+export type ParsedForecastData = {
+  alt: number;
+  forecasts: [
+    {
+      cape: string;
+      cin: string;
+      forecastText: string;
+      header: string;
+      latlon: string;
+      info: {
+        day: number;
+        hour: number;
+        month: number;
+        year: number;
+        type: string;
+        latlon: string;
+      };
+      soundings: [
+        {
+          height: number;
+          temp: number;
+          dewpt: number;
+          direction: number;
+          speed: number;
+        },
+      ];
+    },
+  ];
+};

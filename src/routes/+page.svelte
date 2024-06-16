@@ -4,7 +4,7 @@
   import initialData from "./initialData.json"
   import Windrose from '$lib/components/Windrose.svg.svelte';
   import { onMount } from 'svelte';
-  import WindsAloft from '$lib/components/WindsAloft.svelte';
+  import WindsAloft from '$lib/components/WindsAlofter.svelte';
   import WindChart from '$lib/components/WindChart.svelte';
   import WindAverages from '$lib/components/WindAverages.svelte';
   let data = initialData as EcowittData[];
