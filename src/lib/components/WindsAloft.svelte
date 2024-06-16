@@ -13,6 +13,17 @@
       data = resJSON;
     }
     getInitialData();
+
+    let cachedHour = new Date().getHours();
+    function refreshOnTheHour() {
+      let currentHour = new Date().getHours();
+      if(new Date().getMinutes() === 0 && currentHour !== cachedHour) {
+        getInitialData();
+        console.log(currentHour, 'refreshed winds aloft')
+        cachedHour = currentHour;
+      }
+    }
+    const refreshInterval = setInterval(refreshOnTheHour, 1000)
   }
 
 	function highlightInversion(fi: number, si: number): string {

@@ -1,4 +1,3 @@
-import { fetchElevation } from "$lib/server/winds-aloft/fetchElevation.js";
 import { fetchWindsAloftForecasts } from "$lib/server/winds-aloft/fetchWindsAloftForecasts.js";
 
 const LAT = "29.3576";
