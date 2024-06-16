@@ -1,0 +1,1 @@
+<h1>Wind Chart</h1>

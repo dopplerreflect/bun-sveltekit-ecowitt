@@ -6,7 +6,6 @@
   export let windData: WindData[];
   export let svgHeight: number;
 
-  console.log('windrose', svgHeight)
 	$: mostRecent = windData[0];
 
 	$: maxSpeed = Math.max(...windData.map((e) => e.windspeedmph));
