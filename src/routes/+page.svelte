@@ -8,13 +8,6 @@
   import WindChart from '$lib/components/WindChart.svelte';
   import WindAverages from '$lib/components/WindAverages.svelte';
   let data = initialData as EcowittData[];
-  $: latest = data[0] || false;
-  $: windData = data.map((d) => {
-    let {winddir, windspeedmph, windgustmph} = d;
-    // windspeedmph = windspeedmph * 5 // for testing
-    return { winddir, windspeedmph, windgustmph }
-  })
-  $: localtime = data[0] && new Date(data[0].dateutc).toLocaleTimeString()
   if(browser) {
     const evtSource = new EventSource("/api/sse")
     evtSource.onmessage = event => {
@@ -27,6 +20,15 @@
     }
     getInitialData();
   }
+
+  $: latest = data[0] || false;
+  $: windData = data.map((d) => {
+    let {winddir, windspeedmph, windgustmph} = d;
+    // windspeedmph = windspeedmph * 5 // for testing
+    return { winddir, windspeedmph, windgustmph }
+  })
+  // $: localtime = data[0] && new Date(data[0].dateutc).toLocaleTimeString()
+
   let windRoseDiv: HTMLDivElement;
   let svgHeight: number;
   onMount(() => {
@@ -44,16 +46,10 @@
 <main>
   <div id="windrose" bind:this={windRoseDiv}>
     <Windrose {windData} svgHeight={svgHeight}/>
-      
   </div>
 
   <div id="left">
-    <code>last report: {localtime}</code>
-    
-    <code>wind: {latest.winddir}° @ {latest.windspeedmph}mph gust {latest.windgustmph}mph</code>
-    
-    <code>temp: {latest.tempf}°F</code>
-    <div><WindAverages {windData} /></div>
+    <div><WindAverages {windData} tempf={data[0].tempf} /></div>
   </div>
   <div id="winds-aloft">
     <WindsAloft />
