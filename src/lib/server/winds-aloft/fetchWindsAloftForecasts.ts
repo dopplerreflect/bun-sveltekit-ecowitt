@@ -20,12 +20,14 @@ export const fetchWindsAloftForecasts = async (lat: string, lon: string) => {
   const url = `https://rucsoundings.noaa.gov/get_soundings.cgi?${queryString}`;
 
   try {
-    // console.log({ url });
-    // const result = await fetch(url);
-    // const text = await result.text();
+    // for real results
+    const result = await fetch(url);
+    const text = await result.text();
     // // Bun.write("./winds-oloft-response.txt", text);
-    const file = Bun.file("./winds-oloft-response.txt");
-    let text = await file.text();
+
+    // for constantly-reloading dev, avoid hitting external api:
+    // const file = Bun.file("./winds-oloft-response.txt");
+    // let text = await file.text();
     const forecasts = parseForecastText(text);
     return forecasts;
   } catch (err) {

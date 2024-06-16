@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { ParsedForecastData } from "../../app"
-	import { toLocalTime } from '$lib/conversions';
+	import { celsiusToFarenheit, metersToFeet, toLocalTime } from '$lib/conversions';
 	import DirectionArrow from '$lib/components/DirectionArrow.svelte';
   import { browser } from '$app/environment';
 
@@ -52,13 +52,23 @@
 					{#each forecast.soundings.filter( 
             (s) => (s.height < 5000)
             ) as sounding, si}
-						<div class="height">
-							{sounding.height}
+						<div class="altitude data">
+              <div>
+                { metersToFeet(sounding.height)}
+              </div>
+              <div>
+                <small>ft</small>
+              </div>
 						</div>
-						<div class="speed">
-							{sounding.speed}
+						<div class="speed data">
+              <div>
+                {sounding.speed}
+              </div>
+              <div>
+                <small>mph</small>
+              </div>
 						</div>
-						<div class="direction">
+						<div class="direction data">
               <div>
                 {sounding.direction}°
               </div>
@@ -66,8 +76,13 @@
                 <DirectionArrow style={`transform: rotate(${sounding.direction}deg`} />
               </div>
 						</div>
-						<div class="temperature {highlightInversion(fi, si)}">
-							{Math.round(sounding.temp)}°F
+						<div class="temperature data {highlightInversion(fi, si)}">
+              <div>
+                {Math.round(celsiusToFarenheit(sounding.temp))} 
+              </div>
+              <div>
+                <small>°F</small>
+              </div>
 						</div>
 					{/each}
 				</div>
@@ -117,12 +132,16 @@
 		border-bottom: var(--border);
 	}
 	.temperature.highlight {
-		background-color: hsl(30, 100%, 33%);
+		border-top: 1px solid oklch(50% 50% 30);
 	}
-  .direction {
-    display: flex;
+  .forecast .data {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     & div {
-      flex:auto;
+      width: 100%;
     }
+  }
+  small {
+    color: oklch(50% 25% var(--hue));
   }
 </style>
