@@ -30,7 +30,6 @@ function insertEcowittRow(ecowittData: EcowittData) {
   let queryString = `INSERT INTO ecowittData (dateutc, ${keys.join(
     ",",
   )}) VALUES ('${dateutc}',${values.join(",")})`;
-  console.log(queryString);
   let query = SqliteDB.query(queryString);
   try {
     query.run();

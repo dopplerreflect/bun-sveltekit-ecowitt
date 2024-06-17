@@ -5,7 +5,7 @@ export async function POST({ request, cookies }) {
 
   let weatherData = processWeatherData(formData);
 
-  console.log(weatherData);
+  console.log(weatherData.dateutc);
 
   return new Response("ok", { status: 201 });
 }
