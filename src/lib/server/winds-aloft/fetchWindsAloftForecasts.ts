@@ -27,6 +27,7 @@ export const fetchWindsAloftForecasts = async (lat: string, lon: string) => {
       text = await file.text();
     } else {
       // for real results
+      console.log("fetching winds aloft data");
       const result = await fetch(url);
       text = await result.text();
       // // Bun.write("./winds-oloft-response.txt", text);
