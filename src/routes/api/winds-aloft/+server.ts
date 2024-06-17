@@ -7,6 +7,6 @@ const LON = "-95.4581";
 export async function GET({ request }) {
   const forecasts = parseForecastText(await fetchWindsAloftForecasts(LAT, LON));
   // const alt = await fetchElevation(LAT, LON);
-  const alt = 16.5;
+  const alt = 16;
   return new Response(JSON.stringify({ forecasts, alt }), { status: 200 });
 }
