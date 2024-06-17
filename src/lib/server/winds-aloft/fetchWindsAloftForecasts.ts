@@ -19,15 +19,18 @@ export const fetchWindsAloftForecasts = async (lat: string, lon: string) => {
   const url = `https://rucsoundings.noaa.gov/get_soundings.cgi?${queryString}`;
 
   try {
-    // for real results
-    const result = await fetch(url);
-    const text = await result.text();
-    // // Bun.write("./winds-oloft-response.txt", text);
-
-    // for constantly-reloading dev, avoid hitting external api:
-    // const file = Bun.file("./winds-oloft-response.txt");
-    // let text = await file.text();
-    // const forecasts = parseForecastText(text);
+    let text: string;
+    if (Bun.env.USE_CACHED_WINDS_ALOFT) {
+      // for constantly-reloading dev, avoid hitting external api:
+      console.log("using cached winds aloft");
+      const file = Bun.file("./winds-oloft-response.txt");
+      text = await file.text();
+    } else {
+      // for real results
+      const result = await fetch(url);
+      text = await result.text();
+      // // Bun.write("./winds-oloft-response.txt", text);
+    }
     return text;
   } catch (err) {
     throw error(500, {
