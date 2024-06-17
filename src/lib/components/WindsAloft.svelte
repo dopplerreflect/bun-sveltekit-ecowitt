@@ -57,9 +57,9 @@
         </div>
 				<div class="grid-container inner">
 					<div>ALTITUDE</div>
-					<div>SPEED</div>
-					<div>DIRECTION</div>
 					<div>TEMPERATURE</div>
+					<div>DIRECTION</div>
+					<div>SPEED</div>
 					{#each forecast.soundings.filter( 
             (s) => (s.height < 5000)
             ) as sounding, si}
@@ -71,14 +71,14 @@
                 <small>ft</small>
               </div>
 						</div>
-						<div class="speed data">
+            <div class="temperature data {highlightInversion(fi, si)}">
               <div>
-                {sounding.speed}
+                {Math.round(celsiusToFarenheit(sounding.temp))} 
               </div>
               <div>
-                <small>mph</small>
+                <small>°F</small>
               </div>
-						</div>
+            </div>
 						<div class="direction data">
               <div>
                 {sounding.direction}°
@@ -87,14 +87,14 @@
                 <DirectionArrow style={`transform: rotate(${sounding.direction}deg`} />
               </div>
 						</div>
-						<div class="temperature data {highlightInversion(fi, si)}">
+            <div class="speed data">
               <div>
-                {Math.round(celsiusToFarenheit(sounding.temp))} 
+                {sounding.speed}
               </div>
               <div>
-                <small>°F</small>
+                <small>mph</small>
               </div>
-						</div>
+            </div>
 					{/each}
 				</div>
 			</div>
