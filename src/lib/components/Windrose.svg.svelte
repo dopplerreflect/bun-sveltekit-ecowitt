@@ -74,10 +74,8 @@
 				<circle
 					cx={c(rw.winddir, rw.windspeedmph, maxSpeed).x || 0}
 					cy={c(rw.winddir, rw.windspeedmph, maxSpeed).y || 0}
-					r={1 - (1 / windData.length) * i}
-					fill={`oklch(100% 100% ${hueForSpeed(rw.windspeedmph)} / ${
-						1 - (1 / windData.length) * i
-					})`}
+					r={2 - (2 / windData.length) * i}
+					fill={`oklch(75% 100% ${hueForSpeed(rw.windspeedmph)})`}
 				/>
 			{/each}
 		</g>
