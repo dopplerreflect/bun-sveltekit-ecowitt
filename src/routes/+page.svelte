@@ -44,12 +44,11 @@
 </svelte:head>
 
 <main>
+  <div id="left-pane">
+    <div><WindAverages {windData} tempf={data[0].tempf} /></div>
+  </div>
   <div id="windrose" bind:this={windRoseDiv}>
     <Windrose {windData} svgHeight={svgHeight}/>
-  </div>
-
-  <div id="left">
-    <div><WindAverages {windData} tempf={data[0].tempf} /></div>
   </div>
   <div id="winds-aloft">
     <WindsAloft />
@@ -68,29 +67,23 @@
   }
   main {
     display: grid;
-    grid-template-columns: 1fr var(--one) var(--two) 1fr;
+    grid-template-columns: 1fr var(--one) var(--two);
     grid-template-rows: var(--two) var(--three);
     grid-template-areas: 
-      "left windrose winds-aloft right"
-      "left windrose linechart right";
+      "left-pane windrose winds-aloft"
+      "left-pane windrose linechart";
     background-color: oklch(12.5% 25% var(--hue));
   }
   #windrose {
     grid-area: windrose;
-    border-right: 1px solid white;
   }
-  #left {
-    overflow: hidden;
-    grid-area: left;
-    border-right: 1px solid white;
+  #left-pane {
+    grid-area: left-pane;
   }
   #wind-chart {
     grid-area: linechart;
-    border-right: 1px solid white;
   }
   #winds-aloft {
     grid-area: winds-aloft;
-    border: 1px solid white;
-    border-style: none solid solid none;
   }
 </style>
