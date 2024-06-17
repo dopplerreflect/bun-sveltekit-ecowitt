@@ -43,7 +43,7 @@
 	<div class="grid-container outer">
 		{#each data.forecasts as forecast, fi}
 			<div class="forecast">
-				<time class="header datetime">
+				<div class="header datetime">
           Forecast for 
 					{toLocalTime(
 						forecast.info.year,
@@ -51,31 +51,34 @@
 						forecast.info.day,
 						forecast.info.hour
 					)}
-				</time>
+				</div>
 				<div class="header capecin">
           CAPE: {forecast.cape} CIN: {forecast.cin}
         </div>
-				<div class="grid-container inner">
-					<div>ALTITUDE</div>
-					<div>TEMPERATURE</div>
-					<div>DIRECTION</div>
-					<div>SPEED</div>
+				<div id="rows" class="grid-container inner">
+          <div class="row">
+            <div>ALTITUDE</div>
+            <div>TEMPERATURE</div>
+            <div>DIRECTION</div>
+            <div>SPEED</div>
+          </div>
 					{#each forecast.soundings.filter( 
             (s) => (s.height < 5000)
             ) as sounding, si}
-						<div class="altitude data">
-              <div>
-                { metersToFeet(sounding.height)}
+            <div class="row">
+              <div class="altitude data">
+                <div>
+                  { metersToFeet(sounding.height)}
+                </div>
+                <div>
+                  <small>ft</small>
+                </div>
               </div>
-              <div>
-                <small>ft</small>
-              </div>
-						</div>
-            <div class="temperature data {highlightInversion(fi, si)}">
-              <div>
-                {Math.round(celsiusToFarenheit(sounding.temp))} 
-              </div>
-              <div>
+              <div class="temperature data {highlightInversion(fi, si)}">
+                <div>
+                  {Math.round(celsiusToFarenheit(sounding.temp))} 
+                </div>
+                <div>
                 <small>°F</small>
               </div>
             </div>
@@ -95,6 +98,7 @@
                 <small>mph</small>
               </div>
             </div>
+          </div>
 					{/each}
 				</div>
 			</div>
@@ -110,6 +114,7 @@
 		--border: 1px solid oklch(100% 100% var(--hue));
 	}
 	main {
+    height: 100%;
 		font-family: 'Courier New', Courier, monospace;
 		font-weight: bold;
 		color: white;
@@ -118,25 +123,25 @@
     text-align: right;
   }
 	.grid-container.outer {
-		display: flex;
-	}
-	.grid-container.inner {
-    width: 100%;
     height: 100%;
+	}
+  .grid-container.inner {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+	.grid-container.inner div.row {
+    flex-grow: 1;
 		display: grid;
 		grid-template-columns: repeat(4, 1fr);
-		/* padding: 0.5em 0 0.5em 0; */
 	}
-	.grid-container.inner div {
-		display: flex;
+	.grid-container.inner div.row div {
 		align-items: center;
 		justify-content: center;
 	}
 	.forecast {
+    height: calc(100% - 2em);
 		width: 100%;
-	}
-	time {
-		display: block;
 	}
 	.forecast .header {
 		padding: 0.25em;
