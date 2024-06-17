@@ -1,5 +1,4 @@
 import { error } from "@sveltejs/kit";
-import { parseForecastText } from "$lib/server/winds-aloft/forecast-parser";
 
 const N_HRS = 1;
 
@@ -28,8 +27,8 @@ export const fetchWindsAloftForecasts = async (lat: string, lon: string) => {
     // for constantly-reloading dev, avoid hitting external api:
     // const file = Bun.file("./winds-oloft-response.txt");
     // let text = await file.text();
-    const forecasts = parseForecastText(text);
-    return forecasts;
+    // const forecasts = parseForecastText(text);
+    return text;
   } catch (err) {
     throw error(500, {
       message: "Could not fetch winds aloft data. Are we online?",
