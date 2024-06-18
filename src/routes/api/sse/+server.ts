@@ -1,6 +1,16 @@
 import Database from "$lib/server/database.js";
 
 export async function GET({ request }) {
+  let remoteSSE = Bun.env.USE_REMOTE_SSE;
+
+  if (remoteSSE) {
+    console.log(`using remote sse: ${remoteSSE}`);
+    try {
+      return fetch(remoteSSE);
+    } catch (error) {
+      console.log(error);
+    }
+  }
   const { signal } = request;
   return new Response(
     new ReadableStream({
