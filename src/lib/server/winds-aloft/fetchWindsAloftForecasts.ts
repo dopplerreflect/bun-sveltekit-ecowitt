@@ -1,6 +1,7 @@
 import { error } from "@sveltejs/kit";
 
 const N_HRS = 1;
+const TEMPFILE = "/var/tmp/bun-svelte-ecowitt-winds-aloft-response.txt";
 
 export const fetchWindsAloftForecasts = async (lat: string, lon: string) => {
   const queryParams = {
@@ -18,26 +19,23 @@ export const fetchWindsAloftForecasts = async (lat: string, lon: string) => {
 
   const url = `https://rucsoundings.noaa.gov/get_soundings.cgi?${queryString}`;
 
-  try {
-    let text: string;
-    if (Bun.env.USE_CACHED_WINDS_ALOFT) {
-      // for constantly-reloading dev, avoid hitting external api:
-      console.log("using cached winds aloft");
-      const file = Bun.file("./winds-oloft-response.txt");
-      text = await file.text();
-    } else {
-      // for real results
-      console.log("fetching winds aloft data");
-      const result = await fetch(url);
-      text = await result.text();
-      // // Bun.write("./winds-oloft-response.txt", text);
-    }
-    return text;
-  } catch (err) {
-    throw error(500, {
-      message: "Could not fetch winds aloft data. Are we online?",
-    });
+  let text: string;
+  let cacheFile = Bun.file(TEMPFILE);
+  let cacheHour: string = "";
+  if (cacheFile.size) {
+    text = await cacheFile.text();
+    cacheHour = text.split(/\n/)[1].split(/\s+/)[1];
   }
+  let hourStr = new Date().getUTCHours().toString();
+  if (cacheHour && cacheHour === hourStr) {
+    console.log("using cached winds aloft", TEMPFILE);
+  } else {
+    console.log(`fetching ${url}`);
+    const result = await fetch(url);
+    text = await result.text();
+    Bun.write(TEMPFILE, text);
+  }
+  return text;
 };
 
 /** from docs 
