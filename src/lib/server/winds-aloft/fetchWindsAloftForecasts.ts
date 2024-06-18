@@ -19,7 +19,7 @@ export const fetchWindsAloftForecasts = async (lat: string, lon: string) => {
 
   const url = `https://rucsoundings.noaa.gov/get_soundings.cgi?${queryString}`;
 
-  let text: string;
+  let text: string = "";
   let cacheFile = Bun.file(TEMPFILE);
   let cacheHour: string = "";
   if (cacheFile.size) {
@@ -28,12 +28,16 @@ export const fetchWindsAloftForecasts = async (lat: string, lon: string) => {
   }
   let hourStr = new Date().getUTCHours().toString();
   if (cacheHour && cacheHour === hourStr) {
-    console.log("using cached winds aloft", TEMPFILE);
+    console.info("using cached winds aloft", TEMPFILE);
   } else {
-    console.log(`fetching ${url}`);
-    const result = await fetch(url);
-    text = await result.text();
-    Bun.write(TEMPFILE, text);
+    console.info(`fetching ${url}`);
+    try {
+      const result = await fetch(url);
+      text = await result.text();
+      Bun.write(TEMPFILE, text);
+    } catch (error) {
+      console.log("Error fetching winds aloft", error);
+    }
   }
   return text;
 };
