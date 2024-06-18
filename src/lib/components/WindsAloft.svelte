@@ -115,7 +115,7 @@
 	}
 	main {
     height: 100%;
-		font-family: 'Courier New', Courier, monospace;
+		font-family: 'Roboto Mono', 'Courier New', Courier, monospace;
 		font-weight: bold;
 		color: white;
 	}
@@ -140,11 +140,11 @@
 		justify-content: center;
 	}
 	.forecast {
-    height: calc(100% - 2em);
+    height: calc(100% - 4em);
 		width: 100%;
 	}
 	.forecast .header {
-		padding: 0.25em;
+		padding: 0.5em 0 0.5em 0;
 		border-bottom: var(--border);
 	}
 	.temperature.highlight {

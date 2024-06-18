@@ -152,8 +152,10 @@
     /* height: 100%; */
     width: auto;
   }
+  text {
+    font-family: 'Roboto Mono', 'Courier New', Courier, monospace;
+  }
 	text.cardinal {
-    font-family: 'Courier New', Courier, monospace;
 		fill: white;
 		font-size: 5px;
 		font-weight: bold;
