@@ -1,5 +1,3 @@
-import { error } from "@sveltejs/kit";
-
 const N_HRS = 1;
 const TEMPFILE = "/var/tmp/bun-svelte-ecowitt-winds-aloft-response.txt";
 
