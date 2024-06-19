@@ -30,14 +30,6 @@
   });
   // $: localtime = data[0] && new Date(data[0].dateutc).toLocaleTimeString()
   let windRoseDiv: HTMLDivElement;
-  let svgHeight: number;
-  onMount(() => {
-    const resizeSvg = () =>
-      (svgHeight = windRoseDiv.getBoundingClientRect().height);
-    resizeSvg();
-    window.addEventListener("resize", resizeSvg);
-    return () => window.removeEventListener("resize", resizeSvg);
-  });
 </script>
 
 <svelte:head>
