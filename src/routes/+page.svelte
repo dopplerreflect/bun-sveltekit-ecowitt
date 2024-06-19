@@ -1,35 +1,36 @@
 <script lang="ts">
   import { browser } from "$app/environment";
   import type { EcowittData } from "../../types";
-  import initialData from "./initialData.json";
   import Windrose from "$lib/components/Windrose.svg.svelte";
-  import { onMount } from "svelte";
   import WindsAloft from "$lib/components/WindsAloft.svelte";
   import WindChart from "$lib/components/WindChart.svelte";
   import WindAverages from "$lib/components/WindAverages.svelte";
+  import initialData from "./initialData.json";
+  let testingWindspeedBumpFactor = 1;
+
   let data = initialData as EcowittData[];
+
   if (browser) {
     const evtSource = new EventSource("/api/sse");
     evtSource.onmessage = event => {
       data = JSON.parse(event.data).reverse();
     };
-    async function getInitialData() {
-      const res = await fetch("/api/data");
-      let resJSON = await res.json();
-      data = resJSON.reverse();
-    }
-    getInitialData();
+    // async function getInitialData() {
+    //   const res = await fetch("/api/data");
+    //   let resJSON = await res.json();
+    //   data = resJSON.reverse();
+    //   console.log(data);
+    // }
+    // getInitialData();
   }
 
   $: latest = data[0] || false;
   $: windData = data.map(d => {
     let { winddir, windspeedmph, windgustmph, dateutc } = d;
-    // windspeedmph = windspeedmph * 2.5; // for testing
-    // windgustmph = windgustmph * 2.5;
+    windspeedmph = windspeedmph * testingWindspeedBumpFactor; // for testing
+    windgustmph = windgustmph * testingWindspeedBumpFactor;
     return { winddir, windspeedmph, windgustmph, dateutc };
   });
-  // $: localtime = data[0] && new Date(data[0].dateutc).toLocaleTimeString()
-  let windRoseDiv: HTMLDivElement;
 </script>
 
 <svelte:head>
@@ -45,10 +46,7 @@
       />
     </div>
   </div>
-  <div
-    id="windrose"
-    bind:this={windRoseDiv}
-  >
+  <div id="windrose">
     <Windrose {windData} />
   </div>
   <div id="winds-aloft">

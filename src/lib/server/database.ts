@@ -10,8 +10,11 @@ const SqliteDB = new Sqlite(sqliteDB, { create: true });
 
 const Database = {
   insertEcowittRow: (ecowittData: EcowittData) => insertEcowittRow(ecowittData),
-  allRows: () =>
-    SqliteDB.query("SELECT * FROM ecowittData ORDER BY dateutc ASC").all(),
+  allRows: async () => {
+    let ago = new Date(new Date().getTime() - 1000 * 60 * 60).toISOString();
+    let query = `SELECT * FROM ecowittData WHERE dateutc > '${ago}' ORDER BY dateutc ASC`;
+    return SqliteDB.query(query).all();
+  },
   init: () => createTable(),
 };
 
@@ -36,7 +39,6 @@ function insertEcowittRow(ecowittData: EcowittData) {
   } catch (error) {
     console.log(error);
   }
-
   deleteOldRows();
 }
 

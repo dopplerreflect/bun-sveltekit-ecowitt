@@ -8,7 +8,7 @@
     "tempf": 0,
     "humidity": 0,
     "winddir": 0,
-    "windspeedmph": 30,
+    "windspeedmph": 0,
     "windgustmph": 0,
     "maxdailygust": 0,
     "solarradiation": 0,

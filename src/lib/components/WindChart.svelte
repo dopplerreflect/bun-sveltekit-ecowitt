@@ -43,7 +43,7 @@
     <rect
       {width}
       {height}
-      fill="oklch(0% 75% var(--hue))"
+      fill="oklch(0% 0% var(--hue))"
     />
     {#each windData as wind, i}
       <path
@@ -55,22 +55,26 @@
         fill={`oklch(75% 100% ${hueForSpeed(wind.windspeedmph)})`}
       />
     {/each}
+    <rect
+      {height}
+      width="1em"
+      fill="oklch(0% 0% var(--hue) / 0.5)"
+    />
     {#each yAxes as yAxis, i}
       <path
-        d={`M${0} ${yAxis.y}H${width}`}
-        stroke={`oklch(75% 100% ${hueForSpeed(yAxis.label)})`}
+        d={`M0 ${yAxis.y}H${width}`}
+        stroke={`oklch(100% 0% var(--hue) / 0.5)`}
         stroke-width={0.5}
       />
       <text
         font-family="Roboto Mono"
-        font-size="1em"
-        x={0}
+        font-weight="bold"
+        font-size="0.5em"
+        x="0"
         y={yAxis.y}
         text-anchor="left"
         alignment-baseline="middle"
-        stroke="black"
-        stroke-width={0.5}
-        fill={`oklch(75% 100% ${hueForSpeed(yAxis.label)})`}>{yAxis.label}</text
+        fill={`oklch(100% 0% ${hueForSpeed(yAxis.label)})`}>{yAxis.label}</text
       >
     {/each}
   </svg>
@@ -82,7 +86,6 @@
       {width}
       height={width / 8.475}
       fill="oklch(0% 75% var(--hue))"
-      stroke="oklch(100% 10% var(--hue))"
     />
     {#each xAxes as xAxis, i}
       {#if xAxis}

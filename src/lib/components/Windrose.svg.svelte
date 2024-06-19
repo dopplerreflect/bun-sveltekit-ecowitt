@@ -65,7 +65,7 @@
     cx={0}
     cy={0}
     r={100}
-    fill="oklch(0% 75% var(--hue))"
+    fill="oklch(0% 0% var(--hue))"
   />
   <g id="windrose">
     <g id="ringRadii">
