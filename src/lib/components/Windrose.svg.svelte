@@ -1,6 +1,7 @@
 <script lang="ts">
   import { hueForSpeed } from "$lib/color";
   import { xyCoordinates as c, xyCoordinatesString as cs } from "$lib/geometry";
+  import { onMount } from "svelte";
   import type { WindData } from "../../../types";
 
   export let windData: WindData[];
@@ -8,7 +9,13 @@
 
   $: mostRecent = windData[0];
 
-  $: maxSpeed = Math.max(...windData.map(e => e.windspeedmph));
+  $: maxSpeed = Math.max(...windData.map(e => e.windgustmph));
+
+  $: gusts = windData.map(({ windgustmph, winddir }, i) =>
+    windData[i + 1] && windgustmph === windData[i + 1].windgustmph
+      ? { windgustmph: 0, winddir }
+      : { windgustmph, winddir },
+  );
 
   $: ringRadii = Array.from({ length: Math.ceil(maxSpeed) })
     .map((_, i) => {
@@ -93,6 +100,17 @@
       {/each}
     </g>
     <g id="windDots">
+      {#each gusts as rw, i}
+        <circle
+          cx={c(rw.winddir, rw.windgustmph, maxSpeed).x || 0}
+          cy={c(rw.winddir, rw.windgustmph, maxSpeed).y || 0}
+          r={2 - (2 / windData.length) * i}
+          stroke={`oklch(50% 100% ${hueForSpeed(rw.windgustmph)})`}
+          stroke-width={0.33}
+          fill="none"
+        />
+      {/each}
+
       {#each windData as rw, i}
         <circle
           cx={c(rw.winddir, rw.windspeedmph, maxSpeed).x || 0}
