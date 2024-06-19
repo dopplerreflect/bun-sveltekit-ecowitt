@@ -47,8 +47,8 @@
     />
     {#each windData as wind, i}
       <path
-        d={`M${width - plotLineWidth * (i + 1)} ${height}v-${100 / (maxSpeed / wind.windgustmph)}h${plotLineWidth}V${height}Z`}
-        fill={`oklch(50% 100% ${hueForSpeed(wind.windgustmph)})`}
+        d={`M${width - plotLineWidth * (i + 1)} ${height - 100 / (maxSpeed / wind.windgustmph)}v${plotLineWidth}h${plotLineWidth}v-${plotLineWidth}Z`}
+        fill={`oklch(75% 100% ${hueForSpeed(wind.windgustmph)})`}
       />
       <path
         d={`M${width - plotLineWidth * (i + 1)} ${height}v-${100 / (maxSpeed / wind.windspeedmph)}h${plotLineWidth}V${height}Z`}
