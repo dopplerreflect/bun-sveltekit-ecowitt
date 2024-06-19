@@ -11,7 +11,7 @@
       .map(o => o.windspeedmph)
       .reduce((acc, windspeedmph) => acc + windspeedmph) / windData.length,
   );
-  $: windMax = Math.round(Math.max(...windData.map(o => o.windspeedmph)));
+  $: windMax = Math.max(...windData.map(o => o.windgustmph));
 
   let width = 72;
   let height = 18;
@@ -21,6 +21,26 @@
 </script>
 
 <div id="wrapper">
+  <div class="box">
+    <div class="header">TEMPERATURE °F</div>
+    <svg {viewBox}>
+      <rect
+        {width}
+        {height}
+        fill="oklch(25% 25% var(--hue))"
+      />
+      <text
+        {x}
+        {y}
+        font-size="12px"
+        alignment-baseline="middle"
+        text-anchor="middle"
+        fill={`oklch(100% 100% var(--hue))`}
+      >
+        {tempf.toFixed(1)}°F
+      </text>
+    </svg>
+  </div>
   <div class="box">
     <div class="header">SPEED mph</div>
     <svg {viewBox}>
@@ -35,14 +55,14 @@
         font-size="12px"
         alignment-baseline="middle"
         text-anchor="middle"
-        fill={`oklch(100% 100% var(--hue))`}
+        fill={`oklch(75% 100% ${hueForSpeed(windData[0].windspeedmph)})`}
       >
         {windData[0].windspeedmph}
       </text>
     </svg>
   </div>
   <div class="box">
-    <div class="header">DIRECTION °</div>
+    <div class="header">GUST mph</div>
     <svg {viewBox}>
       <rect
         {width}
@@ -55,9 +75,9 @@
         font-size="12px"
         alignment-baseline="middle"
         text-anchor="middle"
-        fill={`oklch(100% 100% var(--hue))`}
+        fill={`oklch(75% 100% ${hueForSpeed(windData[0].windgustmph)})`}
       >
-        {windData[0].winddir}°
+        {windData[0].windgustmph}
       </text>
     </svg>
   </div>
@@ -75,14 +95,14 @@
         font-size="12px"
         alignment-baseline="middle"
         text-anchor="middle"
-        fill={`oklch(100% 100% ${hueForSpeed(windAverage)})`}
+        fill={`oklch(75% 100% ${hueForSpeed(windAverage)})`}
       >
         {windAverage}
       </text>
     </svg>
   </div>
   <div class="box">
-    <div class="header">MAX mph</div>
+    <div class="header">MAX GUST mph</div>
     <svg {viewBox}>
       <rect
         {width}
@@ -95,29 +115,9 @@
         font-size="12px"
         alignment-baseline="middle"
         text-anchor="middle"
-        fill={`oklch(100% 100% ${hueForSpeed(windMax)})`}
+        fill={`oklch(75% 100% ${hueForSpeed(windMax)})`}
       >
         {windMax}
-      </text>
-    </svg>
-  </div>
-  <div class="box">
-    <div class="header">TEMPERATURE °F</div>
-    <svg {viewBox}>
-      <rect
-        {width}
-        {height}
-        fill="oklch(25% 25% var(--hue))"
-      />
-      <text
-        {x}
-        {y}
-        font-size="12px"
-        alignment-baseline="middle"
-        text-anchor="middle"
-        fill={`oklch(100% 100% var(--hue))`}
-      >
-        {tempf}°F
       </text>
     </svg>
   </div>
