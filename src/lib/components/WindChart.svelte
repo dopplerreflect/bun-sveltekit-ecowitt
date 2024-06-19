@@ -10,12 +10,15 @@
   $: windData = windData;
   $: gusts = windData.map(w => Math.round(w.windgustmph));
   $: maxSpeed = Math.max(...gusts);
-  $: ticks = [...Array(20).keys()]
+  $: yAxisLabels = [...Array(20).keys()]
     .map(k => 5 * (k + 1))
     .filter(t => t < maxSpeed);
-  $: bars = ticks.map(t => ({ label: t, y: height - (100 / maxSpeed) * t }));
-  $: barWidth = width / windData.length;
-  const interval = setInterval(() => {}, 8000);
+  $: yAxes = yAxisLabels.map(label => ({
+    label,
+    y: height - (100 / maxSpeed) * label,
+  }));
+  $: plotLineWidth = width / windData.length;
+  // const interval = setInterval(() => {}, 8000);
 </script>
 
 <svg viewBox={`0 0 ${width} ${height}`}>
@@ -26,29 +29,30 @@
   />
   {#each windData as wind, i}
     <path
-      d={`M${width - barWidth * (i + 1)} ${height}v-${100 / (maxSpeed / wind.windgustmph)}h${barWidth}V${height}Z`}
+      d={`M${width - plotLineWidth * (i + 1)} ${height}v-${100 / (maxSpeed / wind.windgustmph)}h${plotLineWidth}V${height}Z`}
       fill={`oklch(33% 100% ${hueForSpeed(wind.windgustmph)})`}
     />
     <path
-      d={`M${width - barWidth * (i + 1)} ${height}v-${100 / (maxSpeed / wind.windspeedmph)}h${barWidth}V${height}Z`}
+      d={`M${width - plotLineWidth * (i + 1)} ${height}v-${100 / (maxSpeed / wind.windspeedmph)}h${plotLineWidth}V${height}Z`}
       fill={`oklch(75% 100% ${hueForSpeed(wind.windspeedmph)})`}
     />
   {/each}
-  {#each bars as bar, i}
+  {#each yAxes as yAxis, i}
     <path
-      d={`M${0} ${bar.y}H${width}`}
-      stroke={`oklch(75% 100% ${hueForSpeed(bar.label)})`}
+      d={`M${0} ${yAxis.y}H${width}`}
+      stroke={`oklch(75% 100% ${hueForSpeed(yAxis.label)})`}
       stroke-width={0.5}
     />
     <text
+      font-family="Roboto Mono"
       font-size="1em"
       x={0}
-      y={bar.y}
+      y={yAxis.y}
       text-anchor="left"
       alignment-baseline="middle"
       stroke="black"
       stroke-width={0.5}
-      fill={`oklch(75% 100% ${hueForSpeed(bar.label)})`}>{bar.label}</text
+      fill={`oklch(75% 100% ${hueForSpeed(yAxis.label)})`}>{yAxis.label}</text
     >
   {/each}
 </svg>
