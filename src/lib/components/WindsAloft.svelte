@@ -116,7 +116,7 @@
 <style>
   :root {
     --header-height: 3em;
-    --border: 1px solid oklch(100% 100% var(--hue));
+    /* --border: 1px solid oklch(100% 100% var(--hue)); */
   }
   main {
     height: 100%;
@@ -151,7 +151,7 @@
   }
   .forecast .header {
     /* padding: 0.5em 0 0.5em 0; */
-    border-bottom: var(--border);
+    /* border-bottom: var(--border); */
   }
   .temperature.highlight {
     border-top: 1px solid oklch(50% 50% 30);

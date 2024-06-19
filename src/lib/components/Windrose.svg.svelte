@@ -20,12 +20,9 @@
     })
     .filter(v => v !== -1)
     .slice(1);
-
-  let svg: SVGElement;
 </script>
 
 <svg
-  bind:this={svg}
   xmlns="http://www.w3.org/2000/svg"
   height={svgHeight}
   viewBox="-105 -105 210 210"
@@ -174,9 +171,9 @@
 
 <style>
   svg {
-    position: absolute;
+    /* position: absolute; */
     /* height: 100%; */
-    width: auto;
+    /* width: auto; */
   }
   text {
     font-family: "Roboto Mono", "Courier New", Courier, monospace;
