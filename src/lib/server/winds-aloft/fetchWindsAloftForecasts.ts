@@ -22,7 +22,8 @@ export const fetchWindsAloftForecasts = async (lat: string, lon: string) => {
   let cacheHour: string = "";
   if (cacheFile.size) {
     text = await cacheFile.text();
-    cacheHour = text.split(/\n/)[1].split(/\s+/)[1];
+    // Number(result).toString() because morning hours look like "06"
+    cacheHour = Number(text.split(/\n/)[1].split(/\s+/)[1]).toString();
   }
   let hourStr = new Date().getUTCHours().toString();
   if (cacheHour && cacheHour === hourStr) {
