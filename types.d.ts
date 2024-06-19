@@ -35,4 +35,5 @@ type WindData = {
   windspeedmph: EcowittData.windspeedmph;
   winddir: EcowittData.winddir;
   windgustmph: EcowittData.windgustmph;
+  dateutc: EcowittData.dateutc;
 };

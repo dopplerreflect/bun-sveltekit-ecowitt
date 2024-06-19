@@ -1,11 +1,9 @@
 <script lang="ts">
   import { hueForSpeed } from "$lib/color";
   import { xyCoordinates as c, xyCoordinatesString as cs } from "$lib/geometry";
-  import { onMount } from "svelte";
   import type { WindData } from "../../../types";
 
   export let windData: WindData[];
-  export let svgHeight: number;
 
   $: mostRecent = windData[0];
 
@@ -31,7 +29,6 @@
 
 <svg
   xmlns="http://www.w3.org/2000/svg"
-  height={svgHeight}
   viewBox="-105 -105 210 210"
   preserveAspectRatio="none"
 >

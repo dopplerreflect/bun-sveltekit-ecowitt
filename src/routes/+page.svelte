@@ -23,13 +23,12 @@
 
   $: latest = data[0] || false;
   $: windData = data.map(d => {
-    let { winddir, windspeedmph, windgustmph } = d;
+    let { winddir, windspeedmph, windgustmph, dateutc } = d;
     // windspeedmph = windspeedmph * 2.5; // for testing
     // windgustmph = windgustmph * 2.5;
-    return { winddir, windspeedmph, windgustmph };
+    return { winddir, windspeedmph, windgustmph, dateutc };
   });
   // $: localtime = data[0] && new Date(data[0].dateutc).toLocaleTimeString()
-
   let windRoseDiv: HTMLDivElement;
   let svgHeight: number;
   onMount(() => {
@@ -58,10 +57,7 @@
     id="windrose"
     bind:this={windRoseDiv}
   >
-    <Windrose
-      {windData}
-      {svgHeight}
-    />
+    <Windrose {windData} />
   </div>
   <div id="winds-aloft">
     <WindsAloft />
