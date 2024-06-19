@@ -37,7 +37,7 @@
   {#each bars as bar, i}
     <path
       d={`M${0} ${bar.y}H${width}`}
-      stroke="white"
+      stroke={`oklch(75% 100% ${hueForSpeed(bar.label)})`}
       stroke-width={0.5}
     />
     <text
