@@ -54,6 +54,17 @@
         d={`M${width - plotLineWidth * (i + 1)} ${height}v-${100 / (maxSpeed / wind.windspeedmph)}h${plotLineWidth}V${height}Z`}
         fill={`oklch(75% 100% ${hueForSpeed(wind.windspeedmph)})`}
       />
+      <path
+        class="hover"
+        data-value={`speed: ${wind.windspeedmph}mph gust: ${windData[i].windgustmph}mph`}
+        d={`M${width - plotLineWidth * (i + 1)} ${height}V0h${plotLineWidth}V${height}Z`}
+        stroke-width="0.5"
+        fill={`none`}
+      >
+        <title>
+          speed: {wind.windspeedmph}mph gust: {windData[i].windgustmph}mph
+        </title>
+      </path>
     {/each}
     <rect
       {height}
@@ -79,7 +90,7 @@
     {/each}
   </svg>
   <svg
-    id="chart"
+    id="yAxes"
     viewBox={`0 0 ${width} ${(width / 2) * 0.618 ** 3}`}
   >
     <rect
@@ -112,5 +123,11 @@
   div {
     display: flex;
     flex-direction: column;
+  }
+  svg path.hover {
+    pointer-events: all;
+  }
+  svg path.hover:hover {
+    fill: oklch(100% 0% var(--hue) / 0.5);
   }
 </style>
