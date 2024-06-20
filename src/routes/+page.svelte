@@ -13,15 +13,12 @@
   if (browser) {
     const evtSource = new EventSource("/api/sse");
     evtSource.onmessage = event => {
-      // console.log(event);
       data = JSON.parse(event.data).reverse();
     };
     async function getInitialData() {
       const res = await fetch("/api/data");
-      let resJSON = await res.json();
-      console.log(res, resJSON);
+      let resJSON: EcowittData[] = await res.json();
       data = resJSON.reverse();
-      console.log(data);
     }
     getInitialData();
   }
