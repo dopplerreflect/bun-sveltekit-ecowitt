@@ -10,10 +10,13 @@ const SqliteDB = new Sqlite(sqliteDB, { create: true });
 
 const Database = {
   insertEcowittRow: (ecowittData: EcowittData) => insertEcowittRow(ecowittData),
-  allRows: async () => {
+  allRows: async (querySource: string = "?") => {
     let ago = new Date(new Date().getTime() - 1000 * 60 * 60).toISOString();
     let query = `SELECT * FROM ecowittData WHERE dateutc > '${ago}' ORDER BY dateutc ASC`;
-    return SqliteDB.query(query).all();
+    console.log("database.ts:", querySource, query);
+    let result = SqliteDB.query(query).all();
+    // console.log({ result });
+    return result;
   },
   init: () => createTable(),
 };

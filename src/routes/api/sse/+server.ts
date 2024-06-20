@@ -15,9 +15,13 @@ export async function GET({ request }) {
   return new Response(
     new ReadableStream({
       start(controller) {
-        controller.enqueue(`data: ${JSON.stringify(Database.allRows())}\n\n`);
+        controller.enqueue(
+          `data: ${JSON.stringify(Database.allRows("/api/sse:start()"))}\n\n`,
+        );
         function send() {
-          controller.enqueue(`data: ${JSON.stringify(Database.allRows())}\n\n`);
+          controller.enqueue(
+            `data: ${JSON.stringify(Database.allRows("/api/sse:send()"))}\n\n`,
+          );
         }
         const timer = setInterval(send, 8000);
         signal.onabort = () => {
