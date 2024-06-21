@@ -15,15 +15,14 @@
     evtSource.onmessage = event => {
       data = JSON.parse(event.data).reverse();
     };
-    async function getInitialData() {
+    (async function getInitialData() {
       const res = await fetch("/api/data");
       let resJSON: EcowittData[] = await res.json();
       data = resJSON.reverse();
-    }
-    getInitialData();
+    })();
   }
 
-  $: latest = data[0] || false;
+  $: latest = data[0];
   $: windData = data.map(d => {
     let { winddir, windspeedmph, windgustmph, dateutc } = d;
     windspeedmph = windspeedmph * testingWindspeedBumpFactor; // for testing
