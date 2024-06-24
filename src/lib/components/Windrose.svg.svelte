@@ -7,7 +7,7 @@
     windData: WindData[];
   };
   let { windData }: WindRoseProps = $props();
-  $inspect(windData[0]);
+
   let mostRecent = $derived(windData[0]);
 
   let maxSpeed = $derived(Math.max(...windData.map(e => e.windgustmph)));
