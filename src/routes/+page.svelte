@@ -8,31 +8,34 @@
   import initialData from "./initialData.json";
   let testingWindspeedBumpFactor = 1;
 
-  let data = initialData as EcowittData[];
+  let data: EcowittData[] = $state(initialData);
 
+  let windData = $derived(
+    data.map(d => {
+      let { winddir, windspeedmph, windgustmph, dateutc } = d;
+      windspeedmph = windspeedmph * testingWindspeedBumpFactor; // for testing
+      windgustmph = windgustmph * testingWindspeedBumpFactor;
+      return { winddir, windspeedmph, windgustmph, dateutc };
+    }),
+  );
   if (browser) {
     const evtSource = new EventSource("/api/sse");
     evtSource.onmessage = event => {
-      data = JSON.parse(event.data).reverse();
+      let dataFromEventSource = JSON.parse(event.data).reverse();
+      // avoid throwing errors when data would be []
+      if (dataFromEventSource.length) data = dataFromEventSource;
     };
     (async function getInitialData() {
       const res = await fetch("/api/data");
-      let resJSON: EcowittData[] = await res.json();
-      data = resJSON.reverse();
+      let resJSON = await res.json();
+      // avoid throwing errors when data would be []
+      if (resJSON.length) data = resJSON.reverse();
     })();
   }
-
-  $: latest = data[0];
-  $: windData = data.map(d => {
-    let { winddir, windspeedmph, windgustmph, dateutc } = d;
-    windspeedmph = windspeedmph * testingWindspeedBumpFactor; // for testing
-    windgustmph = windgustmph * testingWindspeedBumpFactor;
-    return { winddir, windspeedmph, windgustmph, dateutc };
-  });
 </script>
 
 <svelte:head>
-  <title>{latest.tempf}°F</title>
+  <title>{data[0].tempf}°F</title>
 </svelte:head>
 
 <main>

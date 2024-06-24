@@ -3,28 +3,35 @@
   import { xyCoordinates as c, xyCoordinatesString as cs } from "$lib/geometry";
   import type { WindData } from "../../../types";
 
-  export let windData: WindData[];
+  type WindRoseProps = {
+    windData: WindData[];
+  };
+  let { windData }: WindRoseProps = $props();
+  $inspect(windData[0]);
+  let mostRecent = $derived(windData[0]);
 
-  $: mostRecent = windData[0];
+  let maxSpeed = $derived(Math.max(...windData.map(e => e.windgustmph)));
 
-  $: maxSpeed = Math.max(...windData.map(e => e.windgustmph));
-
-  $: gusts = windData.map(({ windgustmph, winddir }, i) =>
-    windData[i + 1] && windgustmph === windData[i + 1].windgustmph
-      ? { windgustmph: 0, winddir }
-      : { windgustmph, winddir },
+  let gusts = $derived(
+    windData.map(({ windgustmph, winddir }, i) =>
+      windData[i + 1] && windgustmph === windData[i + 1].windgustmph
+        ? { windgustmph: 0, winddir }
+        : { windgustmph, winddir },
+    ),
   );
 
-  $: ringRadii = Array.from({ length: Math.ceil(maxSpeed) })
-    .map((_, i) => {
-      const div = maxSpeed > 9.9 ? 5 : 1;
-      if (i % div === 0) {
-        return i;
-      }
-      return -1;
-    })
-    .filter(v => v !== -1)
-    .slice(1);
+  let ringRadii = $derived(
+    Array.from({ length: Math.ceil(maxSpeed) })
+      .map((_, i) => {
+        const div = maxSpeed > 9.9 ? 5 : 1;
+        if (i % div === 0) {
+          return i;
+        }
+        return -1;
+      })
+      .filter(v => v !== -1)
+      .slice(1),
+  );
 </script>
 
 <svg

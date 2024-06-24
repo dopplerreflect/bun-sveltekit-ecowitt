@@ -2,16 +2,20 @@
   import { hueForSpeed } from "$lib/color";
   import type { WindData } from "../../../types";
 
-  export let windData: WindData[];
-  export let tempf: number;
+  type WindAverageProps = {
+    windData: WindData[];
+    tempf: number;
+  };
+  let { windData, tempf }: WindAverageProps = $props();
 
-  $: windData = windData;
-  $: windAverage = Math.round(
-    windData
-      .map(o => o.windspeedmph)
-      .reduce((acc, windspeedmph) => acc + windspeedmph) / windData.length,
+  let windAverage = $derived(
+    Math.round(
+      windData
+        .map(o => o.windspeedmph)
+        .reduce((acc, windspeedmph) => acc + windspeedmph) / windData.length,
+    ),
   );
-  $: windMax = Math.max(...windData.map(o => o.windgustmph));
+  let windMax = $derived(Math.max(...windData.map(o => o.windgustmph)));
 
   let width = 72;
   let height = 18;

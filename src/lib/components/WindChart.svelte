@@ -2,40 +2,46 @@
   import { hueForSpeed } from "$lib/color";
   import type { WindData } from "../../../types";
 
-  export let windData: WindData[];
+  type WindChartProps = {
+    windData: WindData[];
+  };
+  let { windData }: WindChartProps = $props();
 
   const height = 100;
   const width = height * 2;
 
-  $: windData = windData;
-  $: gusts = windData.map(w => Math.round(w.windgustmph));
-  $: maxSpeed = Math.max(...gusts);
-  $: yAxisLabels = [...Array(20).keys()]
-    .map(k => 5 * (k + 1))
-    .filter(t => t < maxSpeed);
-  $: yAxes = yAxisLabels.map(label => ({
-    label,
-    y: height - (100 / maxSpeed) * label,
-  }));
-  $: plotLineWidth = width / windData.length;
+  let gusts = $derived(windData.map(w => Math.round(w.windgustmph)));
+  let maxSpeed = $derived(Math.max(...gusts));
+  let yAxisLabels = $derived(
+    [...Array(20).keys()].map(k => 5 * (k + 1)).filter(t => t < maxSpeed),
+  );
+  let yAxes = $derived(
+    yAxisLabels.map(label => ({
+      label,
+      y: height - (100 / maxSpeed) * label,
+    })),
+  );
+  let plotLineWidth = $derived(width / windData.length);
 
-  $: xAxes = windData
-    .map(wind => {
-      let dateutc = new Date(wind.dateutc);
-      let hour = dateutc.getHours();
-      let minute = dateutc.getMinutes().toString();
-      if (minute.toString().length === 1) minute = `0${minute}`;
-      let time = `${hour}:${minute}`;
-      return { minute: Number(minute), time };
-    })
-    .map((d, i) => {
-      return windData[i + 1] &&
-        d.minute === new Date(windData[i + 1].dateutc).getMinutes()
-        ? null
-        : d.minute % 5 === 0
-          ? d.time
-          : null;
-    });
+  let xAxes = $derived(
+    windData
+      .map(wind => {
+        let dateutc = new Date(wind.dateutc);
+        let hour = dateutc.getHours();
+        let minute = dateutc.getMinutes().toString();
+        if (minute.toString().length === 1) minute = `0${minute}`;
+        let time = `${hour}:${minute}`;
+        return { minute: Number(minute), time };
+      })
+      .map((d, i) => {
+        return windData[i + 1] &&
+          d.minute === new Date(windData[i + 1].dateutc).getMinutes()
+          ? null
+          : d.minute % 5 === 0
+            ? d.time
+            : null;
+      }),
+  );
 </script>
 
 <div>
