@@ -53,30 +53,30 @@ type WindData = {
 
 export type ParsedForecastData = {
   alt: number;
-  forecasts: [
+  forecasts: Forecast[];
+};
+
+type Forecast = {
+  cape: string;
+  cin: string;
+  forecastText: string;
+  header: string;
+  latlon: string;
+  info: {
+    day: number;
+    hour: number;
+    month: number;
+    year: number;
+    type: string;
+    latlon: string;
+  };
+  soundings: [
     {
-      cape: string;
-      cin: string;
-      forecastText: string;
-      header: string;
-      latlon: string;
-      info: {
-        day: number;
-        hour: number;
-        month: number;
-        year: number;
-        type: string;
-        latlon: string;
-      };
-      soundings: [
-        {
-          height: number;
-          temp: number;
-          dewpt: number;
-          direction: number;
-          speed: number;
-        },
-      ];
+      height: number;
+      temp: number;
+      dewpt: number;
+      direction: number;
+      speed: number;
     },
   ];
 };

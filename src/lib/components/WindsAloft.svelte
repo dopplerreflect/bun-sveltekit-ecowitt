@@ -8,7 +8,7 @@
   import DirectionArrow from "$lib/components/DirectionArrow.svelte";
   import { browser } from "$app/environment";
 
-  let data: ParsedForecastData;
+  let data: ParsedForecastData = $state({ alt: 0, forecasts: [] });
 
   if (browser) {
     async function getInitialData() {
