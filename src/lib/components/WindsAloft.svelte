@@ -2,11 +2,13 @@
   import type { ParsedForecastData } from "../../app";
   import {
     celsiusToFarenheit,
+    knotsToMph,
     metersToFeet,
     toLocalTime,
   } from "$lib/conversions";
   import DirectionArrow from "$lib/components/DirectionArrow.svelte";
   import { browser } from "$app/environment";
+  import { normalizedData } from "$lib/interpolate";
 
   let data: ParsedForecastData = $state({ alt: 0, forecasts: [] });
 
@@ -39,6 +41,19 @@
     }
     return "";
   }
+
+  $effect(() => {
+    if (!data.forecasts.length) return;
+    const dd = normalizedData(data.forecasts[0].soundings);
+
+    dd.forEach(d => {
+      console.log(
+        `${Number(metersToFeet(d?.height).toPrecision(2))}\t${Math.round(
+          celsiusToFarenheit(d?.temp),
+        )}\t${Math.round(d?.direction)}\t${knotsToMph(d?.speed)}`,
+      );
+    });
+  });
 </script>
 
 <main>

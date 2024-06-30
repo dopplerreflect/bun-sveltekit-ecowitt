@@ -1,18 +1,4 @@
-import type { ParsedForecastData, Sounding } from "./src/app";
-import {
-  metersToFeet,
-  celsiusToFarenheit,
-  knotsToMph,
-} from "./src/lib/conversions";
-let data: ParsedForecastData = { alt: 0, forecasts: [] };
-
-async function getInitialData() {
-  const res = await fetch("http://localhost:5173/api/winds-aloft");
-  const resJSON = await res.json();
-  data = resJSON;
-}
-await getInitialData();
-let soundings: Sounding[] = data.forecasts[0].soundings;
+import type { ParsedForecastData, Sounding } from "../app";
 
 const NORMALIZED_ALTITUDES = [
   0,
@@ -23,20 +9,10 @@ const NORMALIZED_ALTITUDES = [
   ...[...Array(14).keys()].map(k => (k + 1) * 1000),
 ].map(ft => ft * 0.3048);
 
-const displayedData = () =>
+export const normalizedData = (soundings: Sounding[]) =>
   NORMALIZED_ALTITUDES.map(altitude =>
     findNormalizedAltitude(altitude + 0, soundings),
   ).filter(notEmpty);
-
-let dd = displayedData();
-
-dd.forEach(d => {
-  console.log(
-    `${Number(metersToFeet(d?.height).toPrecision(2))}\t${Math.round(
-      celsiusToFarenheit(d?.temp),
-    )}\t${Math.round(d?.direction)}\t${knotsToMph(d?.speed)}`,
-  );
-});
 
 /********************************************************/
 
