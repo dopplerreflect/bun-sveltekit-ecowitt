@@ -56,6 +56,14 @@ export type ParsedForecastData = {
   forecasts: Forecast[];
 };
 
+type Sounding = {
+  height: number;
+  temp: number;
+  dewpt: number;
+  direction: number;
+  speed: number;
+};
+
 type Forecast = {
   cape: string;
   cin: string;
@@ -70,13 +78,5 @@ type Forecast = {
     type: string;
     latlon: string;
   };
-  soundings: [
-    {
-      height: number;
-      temp: number;
-      dewpt: number;
-      direction: number;
-      speed: number;
-    },
-  ];
+  soundings: Sounding[];
 };

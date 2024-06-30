@@ -1,4 +1,4 @@
-const N_HRS = 1;
+import { N_HRS } from "$lib/constants";
 const TEMPFILE = "/var/tmp/bun-svelte-ecowitt-winds-aloft-response.txt";
 
 export const fetchWindsAloftForecasts = async (lat: string, lon: string) => {
