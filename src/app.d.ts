@@ -56,7 +56,9 @@ export type ParsedForecastData = {
   forecasts: Forecast[];
 };
 
-type Sounding = {
+export type Sounding = {
+  type?: number;
+  pressure: number;
   height: number;
   temp: number;
   dewpt: number;
@@ -64,7 +66,7 @@ type Sounding = {
   speed: number;
 };
 
-type Forecast = {
+export type Forecast = {
   cape: string;
   cin: string;
   forecastText: string;

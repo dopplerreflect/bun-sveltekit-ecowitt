@@ -15,7 +15,15 @@ export const parseForecastText = (text: string) => {
         let [type, pressure, height, temp, dewpt, direction, speed] = t
           .split(/[\s]+/)
           .map(v => Number(v));
-        return { height, temp: temp / 10, dewpt: dewpt / 10, direction, speed };
+        return {
+          type,
+          pressure,
+          height,
+          temp: temp / 10,
+          dewpt: dewpt / 10,
+          direction,
+          speed,
+        };
       }),
     ];
     return {
