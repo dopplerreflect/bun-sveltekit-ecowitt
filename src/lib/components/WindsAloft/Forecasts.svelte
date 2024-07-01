@@ -13,8 +13,8 @@
   import type { Forecast } from "../../../app";
   import DirectionArrow from "../DirectionArrow.svelte";
 
-  let dd = $derived(normalizedData);
-  function highlightInversion(fi: number, si: number): string {
+  let normalizedSoundings = $derived(normalizedData(forecast.soundings));
+  function highlightInversion(si: number): string {
     if (si > 0) {
       let curTemp = forecast.soundings[si].temp;
       let prevTemp = forecast.soundings[si - 1].temp;
@@ -22,6 +22,7 @@
     }
     return "";
   }
+  // $effect(() => console.log(forecast));
 </script>
 
 <div class="forecast">
@@ -47,17 +48,17 @@
       <div>DIRECTION</div>
       <div>SPEED</div>
     </div>
-    {#each forecast.soundings.filter(s => s.height < 5000) as sounding, si}
+    {#each normalizedSoundings as sounding, si}
       <div class="row">
         <div class="altitude data">
           <div>
-            {metersToFeet(sounding.height)}
+            {Number(metersToFeet(sounding.height).toPrecision(2))}
           </div>
           <div>
             <small>ft</small>
           </div>
         </div>
-        <div class="temperature data {highlightInversion(fi, si)}">
+        <div class="temperature data {highlightInversion(si)}">
           <div>
             {Math.round(celsiusToFarenheit(sounding.temp))}
           </div>
@@ -67,7 +68,7 @@
         </div>
         <div class="direction data">
           <div>
-            {sounding.direction}°
+            {Math.round(sounding.direction)}°
           </div>
           <div>
             <DirectionArrow
@@ -77,7 +78,7 @@
         </div>
         <div class="speed data">
           <div>
-            {sounding.speed}
+            {Math.ceil(sounding.speed)}
           </div>
           <div>
             <small>mph</small>

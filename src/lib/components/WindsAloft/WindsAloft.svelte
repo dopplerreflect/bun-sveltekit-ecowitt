@@ -36,14 +36,6 @@
   $effect(() => {
     if (!data.forecasts.length) return;
     const dd = normalizedData(data.forecasts[0].soundings);
-
-    dd.forEach(d => {
-      console.log(
-        `${Number(metersToFeet(d?.height).toPrecision(2))}\t${Math.round(
-          celsiusToFarenheit(d?.temp),
-        )}\t${Math.round(d?.direction)}\t${knotsToMph(d?.speed)}`,
-      );
-    });
   });
 </script>
 
