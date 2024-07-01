@@ -2,7 +2,7 @@
   import { browser } from "$app/environment";
   import type { EcowittData } from "../../types";
   import Windrose from "$lib/components/Windrose.svg.svelte";
-  import WindsAloft from "$lib/components/WindsAloft.svelte";
+  import WindsAloft from "$lib/components/WindsAloft/WindsAloft.svelte";
   import WindChart from "$lib/components/WindChart.svelte";
   import WindAverages from "$lib/components/WindAverages.svelte";
   import initialData from "./initialData.json";
