@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { hueForSpeed } from "$lib/color";
+  import { hueForSpeed, hueForTemp } from "$lib/color";
   import type { WindData } from "../../../types";
 
   type WindAverageProps = {
@@ -39,7 +39,7 @@
         font-size="12px"
         alignment-baseline="middle"
         text-anchor="middle"
-        fill={`oklch(100% 100% var(--hue))`}
+        fill={`oklch(75% 100% ${hueForTemp(tempf)})`}
       >
         {tempf.toFixed(1)}°F
       </text>
