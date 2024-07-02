@@ -3,6 +3,7 @@
     forecast: Forecast;
   };
   let { forecast }: Props = $props();
+  import { hueForSpeed, hueForTemp } from "$lib/color";
   import {
     metersToFeet,
     celsiusToFarenheit,
@@ -59,7 +60,9 @@
           </div>
         </div>
         <div class="temperature data {highlightInversion(si)}">
-          <div>
+          <div
+            style={`color:oklch(75% 100% ${hueForTemp(Math.round(celsiusToFarenheit(sounding.temp)))})`}
+          >
             {Math.round(celsiusToFarenheit(sounding.temp))}
           </div>
           <div>
@@ -77,8 +80,10 @@
           </div>
         </div>
         <div class="speed data">
-          <div>
-            {Math.ceil(sounding.speed)}
+          <div
+            style={`color: oklch(100% 100% ${hueForSpeed(Math.ceil(knotsToMph(sounding.speed)))})`}
+          >
+            {Math.ceil(knotsToMph(sounding.speed))}
           </div>
           <div>
             <small>mph</small>

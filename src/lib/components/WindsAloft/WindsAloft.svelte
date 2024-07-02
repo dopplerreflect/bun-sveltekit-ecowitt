@@ -1,12 +1,5 @@
 <script lang="ts">
   import type { ParsedForecastData } from "../../../app";
-  import {
-    celsiusToFarenheit,
-    knotsToMph,
-    metersToFeet,
-    toLocalTime,
-  } from "$lib/conversions";
-  import DirectionArrow from "$lib/components/DirectionArrow.svelte";
   import { browser } from "$app/environment";
   import { normalizedData } from "$lib/interpolate";
   import Forecasts from "./Forecasts.svelte";

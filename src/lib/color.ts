@@ -4,3 +4,7 @@ export const hueForSpeed = (mph: number) => {
   }
   return 270 - mph * 10;
 };
+
+export const hueForTemp = (temp: number) => {
+  return 360 - temp * 3;
+};
