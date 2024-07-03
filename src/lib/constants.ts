@@ -1,7 +1,8 @@
 export const LAT = "29.3576";
 export const LON = "-95.4581";
 export const ELEVATION = 16;
-export const N_HRS = 1.0;
+export const N_HRS = 12.0;
+export const USE_CACHED_WINDS_ALOFT = true;
 
 export const MONTHS = new Map([
   ["Jan", 1],

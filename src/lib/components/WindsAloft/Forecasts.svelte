@@ -23,7 +23,6 @@
     }
     return "";
   }
-  // $effect(() => console.log(forecast));
 </script>
 
 <div class="forecast">

@@ -5,6 +5,9 @@
 :root {
   --hue: 270;
   --phi: 0.618;
+  --one: calc(100vh * 1);
+  --two: calc(var(--one) * var(--phi));
+  --three: calc(var(--one) * (var(--phi) * var(--phi)));
 }
 body {
   font-family: Arial, Helvetica, sans-serif;

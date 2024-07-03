@@ -1,5 +1,4 @@
-import { MONTHS } from "$lib/constants";
-const N_HRS = 1;
+import { N_HRS, MONTHS } from "$lib/constants";
 
 export const parseForecastText = (text: string) => {
   return [...text.split("\n\n")].slice(0, N_HRS).map(forecastText => {

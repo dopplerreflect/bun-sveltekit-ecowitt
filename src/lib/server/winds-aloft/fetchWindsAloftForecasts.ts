@@ -1,4 +1,4 @@
-import { N_HRS } from "$lib/constants";
+import { N_HRS, USE_CACHED_WINDS_ALOFT } from "$lib/constants";
 const TEMPFILE = "/var/tmp/bun-svelte-ecowitt-winds-aloft-response.txt";
 
 export const fetchWindsAloftForecasts = async (lat: string, lon: string) => {
@@ -26,7 +26,7 @@ export const fetchWindsAloftForecasts = async (lat: string, lon: string) => {
     cacheHour = Number(text.split(/\n/)[1].split(/\s+/)[1]).toString();
   }
   let hourStr = new Date().getUTCHours().toString();
-  if (cacheHour && cacheHour === hourStr) {
+  if (USE_CACHED_WINDS_ALOFT && cacheHour && cacheHour === hourStr) {
     console.info("using cached winds aloft", TEMPFILE);
   } else {
     console.info(`fetching ${url}`);

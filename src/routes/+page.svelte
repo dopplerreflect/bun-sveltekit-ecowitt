@@ -59,12 +59,6 @@
 </main>
 
 <style>
-  :root {
-    --phi: 0.618;
-    --one: calc(100vh * 1);
-    --two: calc(var(--one) * var(--phi));
-    --three: calc(var(--one) * (var(--phi) * var(--phi)));
-  }
   main {
     display: grid;
     grid-template-columns: 1fr var(--one) var(--two);
