@@ -46,6 +46,18 @@
 
 <div>
   <svg viewBox={`0 0 ${width} ${height}`}>
+    <defs>
+      <linearGradient id="fade">
+        <stop
+          offset="50%"
+          stop-color="oklch(0% 0% var(--hue) / 0.5)"
+        />
+        <stop
+          offset="100%"
+          stop-color="oklch(0% 0% var(--hue) / 0.0)"
+        />
+      </linearGradient>
+    </defs>
     <rect
       {width}
       {height}
@@ -75,7 +87,7 @@
     <rect
       {height}
       width="1em"
-      fill="oklch(0% 0% var(--hue) / 0.5)"
+      fill="url(#fade)"
     />
     {#each yAxes as yAxis, i}
       <path
