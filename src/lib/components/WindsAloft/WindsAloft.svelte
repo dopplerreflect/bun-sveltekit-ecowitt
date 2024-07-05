@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { ParsedForecastData } from "../../../app";
   import { browser } from "$app/environment";
-  import Forecasts from "./Forecasts.svelte";
+  import Forecast from "./Forecast.svelte";
 
   let data: ParsedForecastData = $state({ alt: 0, forecasts: [] });
   let selectedIndex = $state(0);
@@ -37,7 +37,7 @@
 <main>
   {#if data && data.alt && data.forecasts}
     <div class="grid-container outer">
-      <Forecasts {forecast} />
+      <Forecast {forecast} />
       <div class="arrows">
         <div class="left">
           {#if selectedIndex !== 0}
