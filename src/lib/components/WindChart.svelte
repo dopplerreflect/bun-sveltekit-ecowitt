@@ -139,8 +139,9 @@
 
 <style>
   div {
-    display: flex;
-    flex-direction: column;
+    border: 1px solid red;
+  }
+  svg {
   }
   svg path.hover {
     pointer-events: all;

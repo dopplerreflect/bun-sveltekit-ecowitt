@@ -2,7 +2,6 @@
   import { browser } from "$app/environment";
   import type { EcowittData } from "../../types";
   import Windrose from "$lib/components/Windrose.svg.svelte";
-  import WindsAloft from "$lib/components/WindsAloft/WindsAloft.svelte";
   import WindChart from "$lib/components/WindChart.svelte";
   import WindAverages from "$lib/components/WindAverages.svelte";
   import initialData from "./initialData.json";
@@ -50,9 +49,6 @@
   <div id="windrose">
     <Windrose {windData} />
   </div>
-  <div id="winds-aloft">
-    <WindsAloft />
-  </div>
   <div id="wind-chart">
     <WindChart {windData} />
   </div>
@@ -61,11 +57,11 @@
 <style>
   main {
     display: grid;
-    grid-template-columns: 1fr var(--one) var(--two);
-    grid-template-rows: var(--two) var(--three);
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 100px 1fr;
     grid-template-areas:
-      "left-pane windrose winds-aloft"
-      "left-pane windrose linechart";
+      "windrose left-pane"
+      "windrose linechart";
     background-color: oklch(12.5% 25% var(--hue));
     overflow: hidden;
   }
@@ -77,8 +73,5 @@
   }
   #wind-chart {
     grid-area: linechart;
-  }
-  #winds-aloft {
-    grid-area: winds-aloft;
   }
 </style>

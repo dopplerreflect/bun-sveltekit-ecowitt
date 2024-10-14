@@ -27,121 +27,64 @@
 <div id="wrapper">
   <div class="box">
     <div class="header">TEMPERATURE °F</div>
-    <svg {viewBox}>
-      <rect
-        {width}
-        {height}
-        fill="oklch(25% 25% var(--hue))"
-      />
-      <text
-        {x}
-        {y}
-        font-size="12px"
-        alignment-baseline="middle"
-        text-anchor="middle"
-        fill={`oklch(75% 100% ${hueForTemp(tempf)})`}
-      >
-        {tempf.toFixed(1)}°F
-      </text>
-    </svg>
+    <div
+      class="value"
+      style={`color: oklch(75% 100% ${hueForTemp(tempf)})`}
+    >
+      {tempf.toFixed(1)}°F
+    </div>
   </div>
   <div class="box">
     <div class="header">SPEED mph</div>
-    <svg {viewBox}>
-      <rect
-        {width}
-        {height}
-        fill="oklch(25% 25% var(--hue))"
-      />
-      <text
-        {x}
-        {y}
-        font-size="12px"
-        alignment-baseline="middle"
-        text-anchor="middle"
-        fill={`oklch(75% 100% ${hueForSpeed(windData[0].windspeedmph)})`}
-      >
-        {windData[0].windspeedmph}
-      </text>
-    </svg>
+    <div
+      class="value"
+      style={`color: oklch(75% 100% ${hueForSpeed(windData[0].windspeedmph)})`}
+    >
+      {windData[0].windspeedmph}
+    </div>
   </div>
   <div class="box">
     <div class="header">GUST mph</div>
-    <svg {viewBox}>
-      <rect
-        {width}
-        {height}
-        fill="oklch(25% 25% var(--hue))"
-      />
-      <text
-        {x}
-        {y}
-        font-size="12px"
-        alignment-baseline="middle"
-        text-anchor="middle"
-        fill={`oklch(75% 100% ${hueForSpeed(windData[0].windgustmph)})`}
-      >
-        {windData[0].windgustmph}
-      </text>
-    </svg>
+    <div
+      class="value"
+      style={`color: oklch(75% 100% ${hueForSpeed(windData[0].windgustmph)})`}
+    >
+      {windData[0].windgustmph}
+    </div>
   </div>
   <div class="box">
     <div class="header">AVERAGE mph</div>
-    <svg {viewBox}>
-      <rect
-        {width}
-        {height}
-        fill="oklch(25% 25% var(--hue))"
-      />
-      <text
-        {x}
-        {y}
-        font-size="12px"
-        alignment-baseline="middle"
-        text-anchor="middle"
-        fill={`oklch(75% 100% ${hueForSpeed(windAverage)})`}
-      >
-        {windAverage}
-      </text>
-    </svg>
+    <div
+      class="value"
+      style={`color: oklch(75% 100% ${hueForSpeed(windAverage)})`}
+    >
+      {windAverage}
+    </div>
   </div>
   <div class="box">
     <div class="header">MAX GUST mph</div>
-    <svg {viewBox}>
-      <rect
-        {width}
-        {height}
-        fill="oklch(25% 25% var(--hue))"
-      />
-      <text
-        {x}
-        {y}
-        font-size="12px"
-        alignment-baseline="middle"
-        text-anchor="middle"
-        fill={`oklch(75% 100% ${hueForSpeed(windMax)})`}
-      >
-        {windMax}
-      </text>
-    </svg>
+    <div
+      class="value"
+      style={`color: oklch(75% 100% ${hueForSpeed(windMax)})`}
+    >
+      {windMax}
+    </div>
   </div>
 </div>
 
 <style>
   #wrapper {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
   }
   .box {
-    height: 100%;
+    flex: auto;
     & .header {
       text-align: center;
-      /* border: 1px solid oklch(100% 100% var(--hue)); */
-      /* border-style: solid none solid none; */
     }
-  }
-  svg text {
-    font-family: "Roboto Mono";
-    /* font-family: 'Courier New', Courier, monospace; */
+    & .value {
+      font-size: 2em;
+      text-align: center;
+    }
   }
 </style>

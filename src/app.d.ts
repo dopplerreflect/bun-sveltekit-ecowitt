@@ -31,6 +31,7 @@ export type EcowittData = {
   solarradiation: number;
   uv: number;
   rrain_piezo?: number;
+  srain_piezo?: number;
   erain_piezo?: number;
   hrain_piezo?: number;
   drain_piezo?: number;
