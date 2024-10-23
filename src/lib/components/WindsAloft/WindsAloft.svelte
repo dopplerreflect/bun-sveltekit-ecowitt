@@ -88,8 +88,8 @@
   }
   button {
     display: inline-block;
-    background-color: oklch(100% 100% var(--hue) / 0.2);
-    color: oklch(100% 100% var(--hue) / 0.5);
+    background-color: oklch(100% 100% 270 / 0.2);
+    color: oklch(100% 100% 270 / 0.5);
     border: none;
     width: 2em;
     height: 2em;

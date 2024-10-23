@@ -50,18 +50,18 @@
       <linearGradient id="fade">
         <stop
           offset="50%"
-          stop-color="oklch(0% 0% var(--hue) / 0.5)"
+          stop-color="oklch(0% 0% 270 / 0.5)"
         />
         <stop
           offset="100%"
-          stop-color="oklch(0% 0% var(--hue) / 0.0)"
+          stop-color="oklch(0% 0% 270 / 0.0)"
         />
       </linearGradient>
     </defs>
     <rect
       {width}
       {height}
-      fill="oklch(0% 0% var(--hue))"
+      fill="oklch(0% 0% 270)"
     />
     {#each windData as wind, i}
       <path
@@ -92,7 +92,7 @@
     {#each yAxes as yAxis, i}
       <path
         d={`M0 ${yAxis.y}H${width}`}
-        stroke={`oklch(100% 0% var(--hue) / 0.5)`}
+        stroke={`oklch(100% 0% 270 / 0.5)`}
         stroke-width={0.5}
       />
       <text
@@ -114,7 +114,7 @@
     <rect
       {width}
       height={width / 8.475}
-      fill="oklch(0% 75% var(--hue))"
+      fill="oklch(0% 75% 270)"
     />
     {#each xAxes as xAxis, i}
       {#if xAxis}
@@ -139,7 +139,7 @@
 
 <style>
   div {
-    border: 1px solid red;
+    /* border: 1px solid red; */
   }
   svg {
   }
@@ -147,6 +147,6 @@
     pointer-events: all;
   }
   svg path.hover:hover {
-    fill: oklch(100% 0% var(--hue) / 0.5);
+    fill: oklch(100% 0% 270 / 0.5);
   }
 </style>

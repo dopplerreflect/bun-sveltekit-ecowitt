@@ -2,16 +2,13 @@
   font-family: "Roboto Mono";
   src: url("/fonts/static/RobotoMono-Regular.ttf");
 }
-:root {
-  --hue: 270;
-  --phi: 0.618;
-  --one: calc(100vh * 1);
-  --two: calc(var(--one) * var(--phi));
-  --three: calc(var(--one) * (var(--phi) * var(--phi)));
+html,
+body {
+  height: 100vh;
 }
 body {
   font-family: Arial, Helvetica, sans-serif;
   margin: 0;
-  color: oklch(95% 25% var(--hue));
-  /* background-color: oklch(100% 100% var(--hue)); */
+  color: oklch(95% 25% 270);
+  background-color: oklch(100% 100% 270);
 }

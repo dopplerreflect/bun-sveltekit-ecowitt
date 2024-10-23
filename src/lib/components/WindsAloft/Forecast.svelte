@@ -113,6 +113,6 @@
     border-top: 1px solid oklch(50% 50% 30);
   }
   small {
-    color: oklch(50% 25% var(--hue));
+    color: oklch(50% 25% 270);
   }
 </style>

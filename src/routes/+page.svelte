@@ -62,7 +62,7 @@
     grid-template-areas:
       "windrose left-pane"
       "windrose linechart";
-    background-color: oklch(12.5% 25% var(--hue));
+    background-color: oklch(12.5% 25% 270);
     overflow: hidden;
   }
   #windrose {

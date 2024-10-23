@@ -72,7 +72,7 @@
     cx={0}
     cy={0}
     r={100}
-    fill="oklch(0% 0% var(--hue))"
+    fill="oklch(0% 0% 270)"
   />
   <g id="windrose">
     <g id="ringRadii">
@@ -193,9 +193,6 @@
 
 <style>
   svg {
-    /* position: absolute; */
-    /* height: 100%; */
-    /* width: auto; */
   }
   text {
     font-family: "Roboto Mono", "Courier New", Courier, monospace;
