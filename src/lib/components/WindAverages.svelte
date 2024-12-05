@@ -5,8 +5,9 @@
   type WindAverageProps = {
     windData: WindData[];
     tempf: number;
+    tempinf: number;
   };
-  let { windData, tempf }: WindAverageProps = $props();
+  let { windData, tempf, tempinf }: WindAverageProps = $props();
 
   let windAverage = $derived(
     Math.round(
@@ -16,12 +17,6 @@
     ),
   );
   let windMax = $derived(Math.max(...windData.map(o => o.windgustmph)));
-
-  let width = 72;
-  let height = 18;
-  let viewBox = `0 0 ${width} ${height}`;
-  let x = width / 2;
-  let y = height / 2;
 </script>
 
 <div id="wrapper">
@@ -32,6 +27,15 @@
       style={`color: oklch(75% 100% ${hueForTemp(tempf)})`}
     >
       {tempf.toFixed(1)}°F
+    </div>
+  </div>
+  <div class="box">
+    <div class="header">INDOOR °F</div>
+    <div
+      class="value"
+      style={`color: oklch(75% 100% ${hueForTemp(tempinf)})`}
+    >
+      {tempinf.toFixed(1)}°F
     </div>
   </div>
   <div class="box">
@@ -83,7 +87,7 @@
       text-align: center;
     }
     & .value {
-      font-size: 2em;
+      font-size: 1em;
       text-align: center;
     }
   }

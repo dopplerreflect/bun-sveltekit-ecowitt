@@ -43,6 +43,7 @@
       <WindAverages
         {windData}
         tempf={data[0].tempf}
+        tempinf={data[0].tempinf}
       />
     </div>
   </div>
