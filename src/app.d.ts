@@ -30,6 +30,7 @@ export type EcowittData = {
   maxdailygust: number;
   solarradiation: number;
   uv: number;
+  vpd: number;
   rrain_piezo?: number;
   srain_piezo?: number;
   erain_piezo?: number;

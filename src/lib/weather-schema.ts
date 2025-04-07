@@ -18,6 +18,7 @@ export const WeatherSchema: EcowittData = {
   maxdailygust: 0,
   solarradiation: 0,
   uv: 0,
+  vpd: 0,
   rrain_piezo: 0,
   srain_piezo: 0,
   erain_piezo: 0,
